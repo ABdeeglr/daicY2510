@@ -8,8 +8,8 @@
 #define MACRO_X 1
 
 struct int_array {
-  int* body,
-  unsigned int size
+  int* body;
+  unsigned int size;
 };
 
 typedef struct int_array* IntArray;
