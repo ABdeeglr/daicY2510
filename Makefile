@@ -1,7 +1,7 @@
-TARGET_EXEC := final_program
+TARGET_EXEC := app
 
 TARGET_ARGS =
-BUILD_DIR := ./build
+BUILD_DIR := ./build/linux/x86_64/release
 SRC_DIRS := ./src
 
 SRCS := $(shell find $(SRC_DIRS) -name '*.cpp' -or -name '*.c' -or -name '*.s')
@@ -43,7 +43,7 @@ run:
 	@echo "*    Debug Start   *"
 	@echo "*                  *"
 	@echo -e "********************\n"
-	@$(BUILD_DIR)/final_program $(TARGET_ARGS) 
+	@$(BUILD_DIR)/$(TARGET_EXEC) $(TARGET_ARGS) 
 
 love:
 	@echo "********************"
@@ -51,7 +51,7 @@ love:
 	@echo "*    Debug Start   *"
 	@echo "*                  *"
 	@echo -e "********************\n"
-	@$(BUILD_DIR)/final_program
+	@$(BUILD_DIR)/$(TARGET_EXEC)
 
 kkp:
 	@vim src/main.c*
@@ -60,7 +60,7 @@ asm:
 	@gcc -S src/main.c -o asm.s  
 
 release:
-	@cp ./build/final_program ~/bin/$(TARGET_NAME)
+	@cp ./$(BUILD_DIR)/$(TARGET_EXEC) ~/bin/$(TARGET_NAME)
 	@chmod a+x ~/bin/$(TARGET_NAME)
 # Include the .d makefiles. The - at the front suppresses the errors of missing
 # Makefiles. Initially, all the .d files will be missing, and we don't want those
