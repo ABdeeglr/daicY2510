@@ -4,35 +4,37 @@
 
 #ifndef __FIA_H__
 #define __FIA_H__
+#include <stdbool.h>
 
-#define MACRO_X 1
+#define public_func
+#define private_func
+#define friend_func
+
+typedef unsigned int ia_index;
 
 struct int_array {
-  int* body;
-  unsigned int size;
+  int *body;
+  ia_index capacity;
 };
 
-typedef struct int_array* IntArray;
+typedef struct int_array *IntArray;
 typedef IntArray IA;
 
+// Basic APIs
+public_func void delete_IA(IA ia);
+public_func void reset_IA(IA ia);
+public_func void reverse_IA(const IA ia);
+public_func void print_IA(const IA ia);
+public_func void shuffle_IA(const IA ia);
+public_func void is_ordered_IA(const IA ia);
+public_func void is_descend_IA(const IA ia);
 
+public_func void exchange_IA(const IA ia, const ia_index i, const ia_index j);
 
-/**
- *   Int Array Builder and Destoryer
- *
- *
- */
-IntArray IA_Builder(unsigned int length);
-IntArray IA_StackBuilder(unsigned int length);
-void IA_Destoryer(IA ia);
+public_func void left_insert_IA(const IA ia, const int value,
+                                const ia_index position);
 
-/**
- *    Utils Function For Int Array
- */
-int IA_getLength(IA ia);
-int IA_setValue(IA ia, unsigned int position, int value);
-void IA_zeroes(IA ia);
-
-
+public_func IA create_IA(const ia_index capacity);
+public_func IA slice_IA(const IA ia, const ia_index i, const ia_index j);
 
 #endif
