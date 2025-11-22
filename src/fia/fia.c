@@ -1,4 +1,5 @@
 #include "./fia.h"
+#include "../debug.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -32,37 +33,17 @@ public_func void int_array_print(const IA arr) {
   printf("\n]");
 }
 
-public_func void reset_IA(IA ia) { return; }
-
-public_func void reverse_IA(const IA ia) { return; }
-
-
-public_func void shuffle_IA(const IA ia) { return; }
-
-public_func void is_ordered_IA(const IA ia) { return; }
-
-public_func void is_descend_IA(const IA ia) { return; }
-
-public_func void exchange_IA(const IA ia, const ia_index i, const ia_index j) {
-  return;
-}
-
-public_func void left_insert_IA(const IA ia, const int value,
-                                const ia_index position) {
-  return;
-}
 
 public_func IA int_array_create(unsigned int capacity) {
     IA ia = (IA)malloc(sizeof(struct int_array));
     ia->body = (int *)calloc(capacity, sizeof(int));
     ia->capacity = capacity;
-    ia->at = on_heap;
     return ia;
 }
 
 
 public_func void int_array_destroy(IA arr) {
-    if (arr->at == on_heap) { 
+    if (1) { 
         if (arr != NULL) {
             if (arr->body != NULL) free(arr->body);
             free(arr);
@@ -70,25 +51,61 @@ public_func void int_array_destroy(IA arr) {
     }
 }
 
-public_func IA slice_IA(const IA ia, const ia_index i, const ia_index j) {
-  return NULL;
+
+
+public_func int int_array_get(const IA arr, unsigned int index) {
+  if (index >= arr->capacity) {
+    __WARNING("Int Array Index Out of Bound");
+    exit(1);
+  } else {
+    return arr->body[index];
+  }
 }
 
+public_func void int_array_set(IA arr, unsigned int index, int value) {
+  if (index >= arr->capacity) {
+    __WARNING("Int Array Index Out of Bound");
+    exit(1);
+  } else {
+    arr->body[index] = value;
+  }
+}
 
-
-
-int int_array_get(const IA arr, unsigned int index);
-
-void int_array_set(IA arr, unsigned int index, int value);
-
-unsigned int int_array_capacity(const IA arr) {
+public_func unsigned int int_array_capacity(const IA arr) {
   return arr->capacity;
 }
 
-void int_array_fill_random(IA arr);
+public_func void int_array_fill_random(IA arr) {
+  srand((unsigned) time(NULL));
+  for (int i = 0; i < arr->capacity; i++) {
+    arr->body[i] = rand();
+  }
+}
 
-IA int_array_slice(IA arr, unsigned int start, unsigned int end);
 
-void int_array_reverse(IA arr);
+public_func IA int_array_slice(IA arr, unsigned int start, unsigned int end) {
+  unsigned int cap;
+  if (end < start) {
+    __WARNING("Array Index shoule be reverse");
+    cap = start - end;
+  } else {
+    cap = end - start;
+  }
+  IA res = int_array_create(cap);
+  for (int i = 0; i < res->capacity; i++) {
+    res->body[i] = arr->body[start + i];
+  }
+}
 
-void int_array_shuffle(IA arr);
+public_func void int_array_reverse(IA arr) {
+  int step = arr->capacity / 2;
+  for (int i = 0; i < step; i++) {
+    int tmp = arr->body[i];
+    arr->body[i] = arr->body[arr->capacity - i - 1];
+    arr->body[arr->capacity - i - 1];
+  }
+}
+
+public_func void int_array_shuffle(IA arr) {
+  return;
+}

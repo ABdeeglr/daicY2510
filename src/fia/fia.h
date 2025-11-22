@@ -6,20 +6,10 @@
 #include <assert.h>
 #include <time.h>
 
-// =========================================================
-// 数据结构定义 (科: Array)
-// =========================================================
-
-enum alloc_type {
- on_stack,
- on_heap
-};
-
 
 struct int_array {
     int* body;              // 数组数据指针
     unsigned int capacity;  // 数组的最大容量
-    enum alloc_type at;
 };
 
 typedef struct int_array* IntArray;

@@ -4,13 +4,10 @@
 
 int main(const int argc, const char *argv[]) {
 
-  __DEBUG("Hello world!");
-  __WARNING("Here is %d warning.", 13);
-  __ERROR("And only %d Errors!", 0);
-
-  IA ia = create_IA(30);
-  print_IA(ia);
-  free(ia);
+  IA g = int_array_create(14);
+  int_array_fill_random(g); 
+  int_array_print(g);
+  int_array_destroy(g);
 
   return 0;
 }
