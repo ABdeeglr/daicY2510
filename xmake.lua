@@ -4,6 +4,7 @@ target("app")
     set_kind("binary")
     add_files("src/*.c")
     add_files("src/fia/*.c")
+    add_files("src/leetcode/*.c")
 --
 -- If you want to known more usage about xmake, please see https://xmake.io
 --
