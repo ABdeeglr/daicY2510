@@ -1,8 +1,8 @@
 #include "./fia.h"
 #include "../debug.h"
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 
 #define public_func
 #define private_func
@@ -24,34 +24,33 @@ private_func int f_sqrt(int n) {
 
 public_func void int_array_print(const IA arr) {
   int tab = f_sqrt(arr->capacity);
+  if (tab < 16)
+    tab = 16;
   printf("[\n ");
   for (int i = 0; i < arr->capacity; i++) {
     printf("%d, ", *(arr->body + i));
     if (i % tab == tab - 1)
       printf("\n ");
   }
-  printf("\n]");
+  printf("\n]\n");
 }
-
 
 public_func IA int_array_create(unsigned int capacity) {
-    IA ia = (IA)malloc(sizeof(struct int_array));
-    ia->body = (int *)calloc(capacity, sizeof(int));
-    ia->capacity = capacity;
-    return ia;
+  IA ia = (IA)malloc(sizeof(struct int_array));
+  ia->body = (int *)calloc(capacity, sizeof(int));
+  ia->capacity = capacity;
+  return ia;
 }
-
 
 public_func void int_array_destroy(IA arr) {
-    if (1) { 
-        if (arr != NULL) {
-            if (arr->body != NULL) free(arr->body);
-            free(arr);
-        }
+  if (1) {
+    if (arr != NULL) {
+      if (arr->body != NULL)
+        free(arr->body);
+      free(arr);
     }
+  }
 }
-
-
 
 public_func int int_array_get(const IA arr, unsigned int index) {
   if (index >= arr->capacity) {
@@ -76,12 +75,11 @@ public_func unsigned int int_array_capacity(const IA arr) {
 }
 
 public_func void int_array_fill_random(IA arr) {
-  srand((unsigned) time(NULL));
+  srand((unsigned)time(NULL));
   for (int i = 0; i < arr->capacity; i++) {
     arr->body[i] = rand();
   }
 }
-
 
 public_func IA int_array_slice(IA arr, unsigned int start, unsigned int end) {
   unsigned int cap;
@@ -106,6 +104,4 @@ public_func void int_array_reverse(IA arr) {
   }
 }
 
-public_func void int_array_shuffle(IA arr) {
-  return;
-}
+public_func void int_array_shuffle(IA arr) { return; }

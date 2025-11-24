@@ -58,6 +58,8 @@ kkp:
 
 asm:
 	@gcc -S src/main.c -o asm.s  
+time_check:
+	@./$(BUILD_DIR)/$(TARGET_EXEC)
 
 release:
 	@cp ./$(BUILD_DIR)/$(TARGET_EXEC) ~/bin/$(TARGET_NAME)
