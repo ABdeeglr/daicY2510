@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <time.h>
+#include <stdbool.h>
 
 
 struct int_array {
@@ -77,9 +78,32 @@ void int_array_print(const IA arr);
  */
 void int_array_fill_random(IA arr);
 
+
+/**
+ * @brief 使用随机整数填充数组的整个容量。
+ * @param bound 随机数的取值范围（0，bound）
+ */
+void int_array_fill_random_with_bound(IA arr, unsigned int bound);
+
+
+
 IA int_array_slice(IA arr, unsigned int start, unsigned int end);
 
+
+
+/**
+ * @brief 反转一个数组.
+ */
 void int_array_reverse(IA arr);
 
+
+
+/**
+ * @brief 打乱数组.
+ */
 void int_array_shuffle(IA arr);
+
+bool int_array_is_ordered_asc(IA arr);
+
+bool int_array_is_ordered_desc(IA arr);
 #endif // INT_ARRAY_H

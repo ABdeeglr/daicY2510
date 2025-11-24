@@ -1,8 +1,5 @@
 #include "./fia.h"
 #include "../debug.h"
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
 
 #define public_func
 #define private_func
@@ -74,6 +71,14 @@ public_func unsigned int int_array_capacity(const IA arr) {
   return arr->capacity;
 }
 
+public_func void int_array_fill_random_with_bound(IA arr, u32 bound) {
+  if (bound > RAND_MAX) exit(1);
+  srand((unsigned)time(NULL));
+  for (int i = 0; i < arr->capacity; i++) {
+    arr->body[i] = rand() % bound;
+  }
+}
+
 public_func void int_array_fill_random(IA arr) {
   srand((unsigned)time(NULL));
   for (int i = 0; i < arr->capacity; i++) {
@@ -93,6 +98,7 @@ public_func IA int_array_slice(IA arr, unsigned int start, unsigned int end) {
   for (int i = 0; i < res->capacity; i++) {
     res->body[i] = arr->body[start + i];
   }
+  return res;
 }
 
 public_func void int_array_reverse(IA arr) {
@@ -104,4 +110,29 @@ public_func void int_array_reverse(IA arr) {
   }
 }
 
-public_func void int_array_shuffle(IA arr) { return; }
+public_func void int_array_shuffle(IA arr) {
+  srand((unsigned)time(NULL));
+  for (int i = arr->capacity - 1; i >0; i--) {
+    int j = rand() % (i + 1);
+    int tmp = arr->body[i];
+    arr->body[i] = arr->body[j];
+    arr->body[j] = tmp;
+  }
+}
+
+public_func bool int_array_is_ordered_asc(IA arr) {
+  for (int i = 0; i < arr->capacity - 2; i++)  {
+    if (arr->body[i] <= arr->body[i+1]) continue;
+    else return false;
+  }
+  return true;
+}
+
+public_func bool int_array_is_ordered_desc(IA arr) {
+  for (int i = 0; i < arr->capacity - 2; i++)  {
+    if (arr->body[i] >= arr->body[i+1]) continue;
+    else return false;
+  }
+  return true;
+  
+}
