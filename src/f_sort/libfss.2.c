@@ -8,7 +8,10 @@
 #include <stdlib.h>
 #include <time.h>
 
-long arrayProcessorTiming(ArrayProcessor ap, int* __array, const int __size) {
+#define Refactored
+#define useful
+
+useful long arrayProcessorTiming(ArrayProcessor ap, int* __array, const int __size) {
     clock_t start = clock();
     ap(__array, __size);
     clock_t end = clock();
@@ -49,14 +52,13 @@ int ascendingSearch(int* ascending_array,
 }
 
 
-
-int* arraySlice(int* __array, const int __start, const int __end) {
+Refactored int* arraySlice(int* __array, const int __start, const int __end) {
     int* ret = (int*) malloc(sizeof(int) * (__end - __start));
     for (int i = __start, j = 0; i < __end; i++, j++) ret[j] = __array[i];
     return ret;
 }
 
-int* intArrayGenerator(const int size, const int boundary) {
+Refactored int* intArrayGenerator(const int size, const int boundary) {
     int* numbers = (int*)malloc(sizeof(int) * size);
     srand((unsigned) time(NULL));
 
@@ -82,7 +84,7 @@ int* intArrayGenerator(const int size, const int boundary) {
 }
 
 
-int binarySearch(int* ascending_array, const int __size, const int __value) {
+useful int binarySearch(int* ascending_array, const int __size, const int __value) {
     int start = 0;
     int end = __size;
     int interval = (end + start) / 2;

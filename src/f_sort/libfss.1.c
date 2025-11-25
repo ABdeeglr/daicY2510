@@ -10,8 +10,8 @@
 #include <assert.h>
 
 
-
-void fSortAnalyzer(ArraySorter fs) {
+#define useful
+useful void fSortAnalyzer(ArraySorter fs) {
     int i = 0;
     int size = 100;
     long timing = 0;
@@ -30,7 +30,7 @@ void fSortAnalyzer(ArraySorter fs) {
 }
 
 
-bool fSortCertifyTest(ArraySorter fAS, const int __size) {
+useful bool fSortCertifyTest(ArraySorter fAS, const int __size) {
     int i = 0;
     do {
     int* array = intArrayGenerator(__size, __size * 10);
