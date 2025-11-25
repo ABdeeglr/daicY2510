@@ -20,10 +20,6 @@
 #define private_func
 #endif
 
-#define ON 1
-#define OFF 0
-#define ANALYSIS_MODE ON
-
 int __fsrt_global_counter = 0;
 
 private_func void exch(IA arr, unsigned a, unsigned b);
@@ -35,10 +31,18 @@ private_func void analysis();
 
 
 public_func void selection_sort(IA arr, Behavior be) {
+
+  if (ANALYSIS_MODE) {
+    be();
+  }
   return;
 }
 
 public_func void insertion_sort(IA arr, Behavior be) {
+
+  if (ANALYSIS_MODE) {
+    be();
+  }
   return;
 }
 private_func void exch(IA arr, unsigned a, unsigned b) {
