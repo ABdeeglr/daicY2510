@@ -115,7 +115,7 @@ public_func void int_array_reverse(IA arr) {
   for (int i = 0; i < step; i++) {
     int tmp = arr->body[i];
     arr->body[i] = arr->body[arr->capacity - i - 1];
-    arr->body[arr->capacity - i - 1];
+    arr->body[arr->capacity - i - 1] = tmp;
   }
 }
 
