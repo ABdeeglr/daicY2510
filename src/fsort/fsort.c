@@ -27,7 +27,6 @@ private_func bool less(IA arr, unsigned a, unsigned b);
 private_func void reset_counter();
 private_func void read_counter();
 private_func void add_counter();
-private_func void analysis();
 
 
 public_func void selection_sort(IA arr, Behavior be) {
@@ -45,6 +44,7 @@ public_func void insertion_sort(IA arr, Behavior be) {
   }
   return;
 }
+
 private_func void exch(IA arr, unsigned a, unsigned b) {
   if (a > arr->capacity - 1 || b > arr->capacity - 1) {
     __ERROR("Array Index out bound!");
@@ -81,7 +81,7 @@ private_func void read_counter() {
   printf("Exec Counter: %d\n", __fsrt_global_counter);
 }
 
-private_func void analysis() {
+public_func void analysis() {
   read_counter();
   reset_counter();  
 }
