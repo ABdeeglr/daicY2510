@@ -23,13 +23,13 @@ public_func void int_array_print(const IA arr) {
   int tab = f_sqrt(arr->capacity);
   if (tab < 16)
     tab = 16;
-  printf("[");
-  for (int i = 0; i < arr->capacity - 1; i++) {
+  printf("[\n ");
+  for (int i = 0; i < arr->capacity; i++) {
     printf("%d, ", *(arr->body + i));
     if (i % tab == tab - 1)
       printf("\n ");
   }
-  printf("%d]\n\n", *(arr->body + arr->capacity - 1));
+  printf("\n]\n");
 }
 
 public_func IA int_array_create(unsigned int capacity) {
@@ -87,21 +87,12 @@ public_func void int_array_fill_random(IA arr) {
 }
 
 public_func IA int_array_slice(IA arr, unsigned int start, unsigned int end) {
-  if (end > arr->capacity) {
-    __ERROR("Index out of bound. CODE: 301");
-    exit(1);
-  }
-
   unsigned int cap;
   if (end < start) {
     __WARNING("Array Index shoule be reverse");
     cap = start - end;
   } else {
     cap = end - start;
-  }
-  if (cap > arr->capacity) {
-    __ERROR("Index out of bound. CODE: 302");
-    exit(1);
   }
   IA res = int_array_create(cap);
   for (int i = 0; i < res->capacity; i++) {
