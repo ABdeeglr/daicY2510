@@ -141,6 +141,20 @@ public_func void insertion_sort(IA arr, Behavior be) {
 
 public_func void shell_sort(IA arr, Behavior be) {
 
+  if (VISUALIZE_MODE) {
+    printf("\n= = = 正在进行希尔排序可视化 = = =\n");
+    printf(" i  j ||");
+    for (int i = 0; i < arr->capacity; i++) {
+      printf("%4d", i);
+    }
+    printf("\n");
+    printf("      ||");
+    for (int i = 0; i < arr->capacity; i++) {
+      printf("%4d", arr->body[i]);
+    }
+    printf("\n");
+  }
+
   int N = arr->capacity;
   int h = 1;
 
@@ -154,8 +168,19 @@ public_func void shell_sort(IA arr, Behavior be) {
   while (h >= 1) {
     for (int i = h; i < N; i++) { // TODO: not understand now...
       for (int j = i; j >= h && less(arr, j, j - h); j -= h) {
+        if (VISUALIZE_MODE) {
+          printf("%2d %2d ||", j, i);
+          for (int k = 0; k < arr->capacity; k++) {
+            if (k <= i && k >= j)
+              printf("\033[2m%4d\033[0m", arr->body[k]);
+            else
+              printf("%4d", arr->body[k]);
+          }
+          printf("\n");
+        }
         exch(arr, j, j - h);
       }
+
     }
     h = h / 3;
   }
