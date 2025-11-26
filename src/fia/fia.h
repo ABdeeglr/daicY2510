@@ -10,7 +10,7 @@
 
 struct int_array {
     int* body;              // 数组数据指针
-    unsigned int capacity;  // 数组的最大容量
+    int capacity;  // 数组的最大容量
 };
 
 typedef struct int_array* IntArray;
@@ -25,7 +25,7 @@ typedef IntArray IA;
  * * @param capacity 数组的初始最大容量。
  * @return int_array 初始化后的数组结构体。
  */
-IA int_array_create(unsigned int capacity);
+IA int_array_create(int capacity);
 
 /**
  * @brief 释放 int_array 内部数据内存并安全归零结构体。
@@ -43,7 +43,7 @@ void int_array_destroy(IA arr);
  * @param index 待访问的索引。
  * @return int 索引位置的值。
  */
-int int_array_get(const IA arr, unsigned int index);
+int int_array_get(const IA arr, int index);
 
 /**
  * @brief 安全地设置数组指定索引处的值。
@@ -51,7 +51,7 @@ int int_array_get(const IA arr, unsigned int index);
  * @param index 待写入的索引。
  * @param value 要写入的新值。
  */
-void int_array_set(IA arr, unsigned int index, int value);
+void int_array_set(IA arr, int index, int value);
 
 // =========================================================
 // III. 查询
@@ -62,7 +62,7 @@ void int_array_set(IA arr, unsigned int index, int value);
  * * @param arr 待查询的数组。
  * @return unsigned int 数组的容量。
  */
-unsigned int int_array_capacity(const IA arr);
+int int_array_capacity(const IA arr);
 
 // =========================================================
 // IV. 工具与测试
@@ -83,11 +83,11 @@ void int_array_fill_random(IA arr);
  * @brief 使用随机整数填充数组的整个容量。
  * @param bound 随机数的取值范围（0，bound）
  */
-void int_array_fill_random_with_bound(IA arr, unsigned int bound);
+void int_array_fill_random_with_bound(IA arr, int bound);
 
 
 
-IA int_array_slice(IA arr, unsigned int start, unsigned int end);
+IA int_array_slice(IA arr, int start, int end);
 
 
 
