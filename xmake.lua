@@ -5,6 +5,7 @@ target("app")
     add_files("src/*.c")
     add_files("src/fia/*.c")
     add_files("src/fsort/*.c")
+    add_files("src/analysis/*.c")
 --
 -- If you want to known more usage about xmake, please see https://xmake.io
 --
