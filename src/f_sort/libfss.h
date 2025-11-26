@@ -4,7 +4,8 @@
 
 #ifndef __LIBFSS__
 #define __LIBFSS__
-
+#define useful
+#define Refactored
 #include <stdbool.h>
 
 /*****  Macro  ******/

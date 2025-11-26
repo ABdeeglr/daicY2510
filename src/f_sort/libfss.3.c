@@ -33,7 +33,7 @@ bool safeInsert(int* array, const int array_size,
     return true;
 }
 
-void printArray(int* array, const int size) {
+Refactored void printArray(int* array, const int size) {
     printf("[");
     for (int i = 0; i < size - 1; i++) {
         printf("%d, ", array[i]);
@@ -47,7 +47,7 @@ void exchange(int* ary, const int index_a, const int index_b) {
     *(ary + index_b) = tmp;
 }
 
-void reverseArray(int* __array, const int __size) {
+Refactored void reverseArray(int* __array, const int __size) {
     int* tmp = (int*) malloc(sizeof(int) * __size);
     for (int i = 0; i < __size; i++) {
         tmp[i] = __array[__size - 1 - i];

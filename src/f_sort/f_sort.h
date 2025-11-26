@@ -41,3 +41,10 @@ int* shellSort(int* a, const int size);
 
 #endif
 /* f_sort.h */
+
+// Refactor advice:
+// 1. List all sort_algs
+// 2. Describe sort function abstraction
+// 3. Create analyzer for sort function abstraction and other supported function
+// 4. Realize these sort_algs and test
+// 5. but, how can I test how much memory it costs? It seems like only paper analysis can have any possibility to do that. And my sort can only sort arrays, not ... it seems like very complex.
