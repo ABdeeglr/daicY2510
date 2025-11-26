@@ -139,6 +139,32 @@ public_func void insertion_sort(IA arr, Behavior be) {
   return;
 }
 
+public_func void shell_sort(IA arr, Behavior be) {
+
+  int N = arr->capacity;
+  int h = 1;
+
+  // To find the h-ordered array as beginning, we suggest that
+  // an sub-array should have at least 2 elements, so N/3 is the
+  // upper bound of count of h-order sub-array, for each contains
+  // at least 2 elements and eventually 3 elements; 
+  while (h < N / 3) h = 3 * h + 1; // 1 -> 4 -> 13 -> 40 -> 121 -> ...
+
+  // 1-order array means the whole array was sorted
+  while (h >= 1) {
+    for (int i = h; i < N; i++) { // TODO: not understand now...
+      for (int j = i; j >= h && less(arr, j, j - h); j -= h) {
+        exch(arr, j, j - h);
+      }
+    }
+    h = h / 3;
+  }
+
+  if (be != NULL) {
+    be();
+  }
+}
+
 private_func void exch(IA arr, unsigned a, unsigned b) {
   if (a > arr->capacity - 1 || b > arr->capacity - 1) {
     __ERROR("Array Index out bound!");
