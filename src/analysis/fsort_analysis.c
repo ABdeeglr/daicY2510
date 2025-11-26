@@ -9,8 +9,8 @@ long array_processor_timing(ArrayProcessor alg, IA arr) {
 }
 
 void fsort_analyer(ArrayProcessor alg, int scale, int round) {
-  printf("Make sure you switch the MACRO: VISUALIZE_MODE and ANALYSIS_MODE OFF.\n");
-  printf("Otherwise the actual runtime cost maybe longer than supposed.\n");
+  printf("\033[2mMake sure you switch the MACRO: VISUALIZE_MODE and ANALYSIS_MODE OFF.\033[0m\n");
+  printf("\033[2mOtherwise the actual runtime cost maybe longer than supposed.\033[0m\n");
 
   int i = 1;
   long total = 0;

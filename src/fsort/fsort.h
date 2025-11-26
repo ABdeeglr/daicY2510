@@ -4,8 +4,8 @@
 
 #define ON 1
 #define OFF 0
-#define ANALYSIS_MODE ON
-#define VISUALIZE_MODE ON
+#define ANALYSIS_MODE OFF
+#define VISUALIZE_MODE OFF
 
 typedef void (*Behavior)(void);
 typedef void (*ArrayProcessor)(IA arr, Behavior be);

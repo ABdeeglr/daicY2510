@@ -1,9 +1,10 @@
 #include "./analysis/fsort_analysis.h"
 
 int main(const int argc, const char *argv[]) {
-  fsort_analyer(selection_sort, 1000, 10);
   
-  fsort_analyer(insertion_sort, 1000, 10);
-  
+  printf("\n\nStart Selection Sort Ananyzer.\n");
+  fsort_analyer(selection_sort, 10000, 5);
+  printf("\n\nStart Shell Sort Ananyzer.\n");
+  fsort_analyer(shell_sort, 1000000, 5);
   return 0;
 }
