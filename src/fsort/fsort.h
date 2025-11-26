@@ -14,3 +14,4 @@ typedef ArrayProcessor Sorter;
 void analysis();
 void selection_sort(IA arr, Behavior be);
 void insertion_sort(IA arr, Behavior be);
+void shell_sort(IA arr, Behavior be);
