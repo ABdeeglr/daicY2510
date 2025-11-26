@@ -4,7 +4,6 @@
 #define public_func
 #define private_func
 
-typedef unsigned int ia_index;
 
 private_func int f_sqrt(int n) {
   int x = 1;
@@ -32,7 +31,7 @@ public_func void int_array_print(const IA arr) {
   printf("%d]\n\n", *(arr->body + arr->capacity - 1));
 }
 
-public_func IA int_array_create(unsigned int capacity) {
+public_func IA int_array_create(int capacity) {
   IA ia = (IA)malloc(sizeof(struct int_array));
   ia->body = (int *)calloc(capacity, sizeof(int));
   ia->capacity = capacity;
@@ -49,7 +48,7 @@ public_func void int_array_destroy(IA arr) {
   }
 }
 
-public_func int int_array_get(const IA arr, unsigned int index) {
+public_func int int_array_get(const IA arr, int index) {
   if (index >= arr->capacity) {
     __WARNING("Int Array Index Out of Bound");
     exit(1);
@@ -58,7 +57,7 @@ public_func int int_array_get(const IA arr, unsigned int index) {
   }
 }
 
-public_func void int_array_set(IA arr, unsigned int index, int value) {
+public_func void int_array_set(IA arr, int index, int value) {
   if (index >= arr->capacity) {
     __WARNING("Int Array Index Out of Bound");
     exit(1);
@@ -67,11 +66,11 @@ public_func void int_array_set(IA arr, unsigned int index, int value) {
   }
 }
 
-public_func unsigned int int_array_capacity(const IA arr) {
+public_func int int_array_capacity(const IA arr) {
   return arr->capacity;
 }
 
-public_func void int_array_fill_random_with_bound(IA arr, u32 bound) {
+public_func void int_array_fill_random_with_bound(IA arr, int bound) {
   if (bound > RAND_MAX) exit(1);
   srand((unsigned)time(NULL));
   for (int i = 0; i < arr->capacity; i++) {
@@ -86,13 +85,13 @@ public_func void int_array_fill_random(IA arr) {
   }
 }
 
-public_func IA int_array_slice(IA arr, unsigned int start, unsigned int end) {
+public_func IA int_array_slice(IA arr, int start, int end) {
   if (end > arr->capacity) {
     __ERROR("Index out of bound. CODE: 301");
     exit(1);
   }
 
-  unsigned int cap;
+  int cap;
   if (end < start) {
     __WARNING("Array Index shoule be reverse");
     cap = start - end;
