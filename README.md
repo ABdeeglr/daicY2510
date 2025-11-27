@@ -1,5 +1,16 @@
 # README
 
+## How to use this project
+
+**Basic**
+  1. build the target: `xmake`
+  2. run target: `xmake run`
+  3. Clean Build Cache: `xmake clean` or `make clean`
+
+**Scripts**
+  1. `make visualize`
+  2. `make`
+
 
 ## Git Commit Rules:
 
