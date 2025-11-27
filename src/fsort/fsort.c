@@ -9,19 +9,7 @@
  * Number: +114 514-1919-810 XD
  */
 
-#define DEBUG 1
 #include "./fsort.h"
-#include "../easy_print.h"
-#include <stdbool.h>
-#include <stdio.h>
-
-#ifndef public_func
-#define public_func
-#endif
-
-#ifndef private_func
-#define private_func
-#endif
 
 int __fsrt_global_counter = 0;
 

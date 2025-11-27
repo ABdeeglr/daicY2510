@@ -1,11 +1,16 @@
 #pragma once
 #include "../debug.h"
+#include "../switchers.h"
 #include "../fia/fia.h"
+#include "../easy_print.h"
 
-#define ON 1
-#define OFF 0
-#define ANALYSIS_MODE OFF
-#define VISUALIZE_MODE ON
+#ifndef public_func
+#define public_func
+#endif
+
+#ifndef private_func
+#define private_func
+#endif
 
 typedef void (*Behavior)(void);
 typedef void (*ArrayProcessor)(IA arr, Behavior be);
