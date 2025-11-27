@@ -4,7 +4,7 @@
 
 #define ON 1
 #define OFF 0
-#define ANALYSIS_MODE ON
+#define ANALYSIS_MODE OFF
 #define VISUALIZE_MODE ON
 
 typedef void (*Behavior)(void);
