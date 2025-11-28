@@ -44,21 +44,24 @@ public_func void selection_sort(IA arr, Behavior be) {
     printf("\n= = = 正在进行    排序可视化 = = =\n");
     printf("  i min");
     print_seperator();
-    for (int i = 0; i < N; i++) printf("%4d", i);
+    for (int i = 0; i < N; i++)
+      printf("%4d", i);
     printf("\n");
 
     // Origin Info line: print the origin array;
     printf("   ");
     printf("    ");
     print_seperator();
-    for (int i = 0; i < N; i++) printf("%4d", arr->body[i]);
+    for (int i = 0; i < N; i++)
+      printf("%4d", arr->body[i]);
     printf("\n");
 
     // Sorting Visualization lines:
     for (int i = 0; i < N; i++) {
       int min = i;
       for (int j = i + 1; j < N; j++) {
-        if (less(arr, j, min)) min = j;
+        if (less(arr, j, min))
+          min = j;
       }
 
       // Now you find the samllest int this cycle
@@ -75,10 +78,11 @@ public_func void selection_sort(IA arr, Behavior be) {
         else if (x == min) {
           printf(UNDERLINE_PRINT_BEGIN);
           printf("%4d", arr->body[x]);
-          printf(UNDERLINE_PRINT_END);          
+          printf(UNDERLINE_PRINT_END);
         }
         // Ordinary print
-        else printf("%4d", arr->body[x]);
+        else
+          printf("%4d", arr->body[x]);
       }
       printf("\n");
       exch(arr, i, min);
@@ -86,11 +90,11 @@ public_func void selection_sort(IA arr, Behavior be) {
     printf("Finish!");
     print_seperator();
     printf(BACKGROUND_PRINT_BEGIN);
-    for (int i = 0; i < N; i++) printf("%4d", arr->body[i]);
+    for (int i = 0; i < N; i++)
+      printf("%4d", arr->body[i]);
     printf(BACKGROUND_PRINT_END);
     printf("\n");
-  }
-  else {
+  } else {
     int N = arr->capacity;
 
     // In this layer of cycle, we mean to set the smallest element
@@ -105,7 +109,8 @@ public_func void selection_sort(IA arr, Behavior be) {
       for (int j = i + 1; j < N; j++) {
         // We suppose `j = i+1` as the initial smallest element's index
         // If find an element smaller than it, than replace it.
-        if (less(arr, j, min)) min = j;
+        if (less(arr, j, min))
+          min = j;
       }
 
       // After we find the smallest element's index, exchange it
@@ -114,7 +119,8 @@ public_func void selection_sort(IA arr, Behavior be) {
   }
 
   if (ANALYSIS_MODE) {
-    if (be != NULL) be();
+    if (be != NULL)
+      be();
   }
   return;
 }
@@ -129,25 +135,34 @@ public_func void insertion_sort(IA arr, Behavior be) {
   const int N = arr->capacity;
 
   if (VISUALIZE_MODE) {
-    
+
     printf("\n= = = 正在进行 Insertion Sort 可视化 = = =\n");
     printf("  i  j");
     print_seperator();
-    for (int i = 0; i < N; i++) printf("%4d", i);
+    for (int i = 0; i < N; i++) {
+      printf("%4d", i);
+    }
     printf("\n");
 
     // Origin Info line: print the origin array;
     printf("   ");
     printf("   ");
     print_seperator();
-    for (int i = 0; i < N; i++) printf("%4d", arr->body[i]);
+    for (int i = 0; i < N; i++) {
+      if (i == 1) {
+        printf(UNDERLINE_PRINT_BEGIN);
+        printf("%4d", arr->body[i]);
+        printf(UNDERLINE_PRINT_END);
+      } else {
+        printf("%4d", arr->body[i]);
+      }
+    }
     printf("\n");
 
     for (int i = 1; i < N; i++) {
 
-      
       int position = i;
-      
+
       for (int j = i; j > 0 && less(arr, j, j - 1); j--) {
         exch(arr, j, j - 1);
         position--;
@@ -180,9 +195,8 @@ public_func void insertion_sort(IA arr, Behavior be) {
       }
       printf("\n");
     }
-    
-  }
-  else {
+
+  } else {
     for (int i = 1; i < N; i++) {
       for (int j = i; j > 0 && less(arr, j, j - 1); j--) {
         exch(arr, j, j - 1);
@@ -190,52 +204,33 @@ public_func void insertion_sort(IA arr, Behavior be) {
     }
   }
 
-
-  
   if (ANALYSIS_MODE) {
-    if (be != NULL) be();
+    if (be != NULL)
+      be();
   }
   return;
 }
 
 public_func void shell_sort(IA arr, Behavior be) {
 
-  printf("\n= = = 正在进行希尔排序可视化 = = =\n");
-
-
-  if (VISUALIZE_MODE) {
   int N = arr->capacity;
-    int h = 1;
+  int h = 1;
 
-    while (h < N / 3) h = 3 * h + 1;
+  // To find the h-ordered array as beginning, we suggest that
+  // an sub-array should have at least 2 elements, so N/3 is the
+  // upper bound of count of h-order sub-array, for each contains
+  // at least 2 elements and eventually 3 elements;
+  while (h < N / 3)
+    h = 3 * h + 1; // 1 -> 4 -> 13 -> 40 -> 121 -> ...
 
-    while (h >= 1) {
-      for (int i = h; i < N; i++) {
-        for (int j = i; j >= h && less(arr, j, j - h); j -= h) { exch(arr, j, j - h); }
+  // 1-order array means the whole array was sorted
+  while (h >= 1) {
+    for (int i = h; i < N; i++) { // TODO: not understand now...
+      for (int j = i; j >= h && less(arr, j, j - h); j -= h) {
+        exch(arr, j, j - h);
       }
-      h = h / 3;
     }
-    
-  } else {
-    int N = arr->capacity;
-    int h = 1;
-
-    // To find the h-ordered array as beginning, we suggest that
-    // an sub-array should have at least 2 elements, so N/3 is the
-    // upper bound of count of h-order sub-array, for each contains
-    // at least 2 elements and eventually 3 elements; 
-    while (h < N / 3) h = 3 * h + 1; // 1 -> 4 -> 13 -> 40 -> 121 -> ...
-
-    // 1-order array means the whole array was sorted
-    while (h >= 1) {
-      for (int i = h; i < N; i++) { // TODO: not understand now...
-        for (int j = i; j >= h && less(arr, j, j - h); j -= h) {
-          exch(arr, j, j - h);
-        }
-
-      }
-      h = h / 3;
-    }
+    h = h / 3;
   }
 
   if (ANALYSIS_MODE && (be != NULL)) {
@@ -284,9 +279,9 @@ public_func void analysis() {
 }
 
 private_func void print_seperator() {
-    printf(" ");
-    printf(BACKGROUND_PRINT_BEGIN);
-    printf("|");
-    printf(BACKGROUND_PRINT_END);
-    printf(" ");
+  printf(" ");
+  printf(BACKGROUND_PRINT_BEGIN);
+  printf("|");
+  printf(BACKGROUND_PRINT_END);
+  printf(" ");
 }

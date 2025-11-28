@@ -4,19 +4,24 @@
 
 int main(const int argc, const char *argv[]) {
 
-  IA arr = int_array_create(26);
-  int_array_fill_random_with_bound(arr, 300);
+  int N = 1000;
 
-  insertion_sort(arr, NULL);
+  // for (int i = 0; i < 5; i++) {
+  //   printf("%3d -->", N << i);
+  // }
+  // printf("\n");
   
-  int_array_destroy(arr);
+  IA arr;
+  int bound;
+  for (int i = 0; i <= 5; i++) {
+    bound = N << (i + 1);
+    arr = int_array_create(N << i);
+    int_array_fill_random_with_bound(arr, bound);
+    int_array_print(arr);
+    shell_sort(arr, NULL);
+    int_array_print(arr);
+    int_array_destroy(arr);
+  }
   
-
-  arr = int_array_create(26);
-  int_array_fill_random_with_bound(arr, 300);
-
-  selection_sort(arr, NULL);
-  
-  int_array_destroy(arr);
   return 0;
 }
