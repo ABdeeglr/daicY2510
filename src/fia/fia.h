@@ -88,6 +88,7 @@ void int_array_fill_random_with_bound(IA arr, int bound);
 
 
 IA int_array_slice(IA arr, int start, int end);
+IA int_array_reference(IA arr, int start, int end);
 
 
 

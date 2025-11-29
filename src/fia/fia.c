@@ -109,6 +109,12 @@ public_func IA int_array_slice(IA arr, int start, int end) {
   return res;
 }
 
+// TODO
+IA int_array_reference(IA arr, int start, int end) {
+  return NULL;
+}
+
+
 public_func void int_array_reverse(IA arr) {
   int step = arr->capacity / 2;
   for (int i = 0; i < step; i++) {
