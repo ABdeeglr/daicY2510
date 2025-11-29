@@ -1,31 +1,38 @@
-#ifndef __FBOOM__
-#define __FBOOM__
+#pragma once
 
 #include <stdio.h>
-#include <assert.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <unistd.h>
-#include <string.h>
+
+#ifndef DEBUG_MODE
+#define DEBUG_MODE 0
+#endif
 
 #if DEBUG_MODE
-/* Debug Print. Msg send to stderr*/
-#define __DEBUG(Msg, ...) fprintf(stderr, "\033[36m[DEBUG]\033[0m %s: (%d):" #Msg "\n", __FILE__, __LINE__,  ##__VA_ARGS__);
-/* Warning message send to stderr*/
-#define __WARNING(Msg, ...) fprintf(stderr, "\033[43m[WARNI]\033[0m %s: (%d):" #Msg "\n", __FILE__, __LINE__,  ##__VA_ARGS__);
-/* Error message send to stderr*/
+#define __INFO(Msg, ...) fprintf(stderr, "\033[36m[INFO ]\033[0m %s: (%d):" #Msg "\n", __FILE__, __LINE__,  ##__VA_ARGS__);
+#define __WARNING(Msg, ...) fprintf(stderr, "\033[43m[WARN ]\033[0m %s: (%d):" #Msg "\n", __FILE__, __LINE__,  ##__VA_ARGS__);
 #define __ERROR(Msg, ...) fprintf(stderr, "\033[41m[ERROR]\033[0m %s: (%d):" #Msg "\n", __FILE__, __LINE__,  ##__VA_ARGS__);
-#define __PRINT printf
 #else
-#define __DEBUG(Msg, ...)
+#define __INFO(Msg, ...)
 #define __WARNING(Msg, ...)
 #define __ERROR(Msg, ...)
-#define __PRINT
 #endif
 
-// malloc 函数的宏写法，仍然需要 free 函数回收
-#define fObMalloc(T) (struct T *) malloc(sizeof(struct T))
-#define fMalloc(T, nums) (T*) calloc(nums, sizeof(T))
-#define NewFunctionType(FT_NAME, RETURN_TYPE, ...) typedef RETURN_TYPE (*FT_NAME)(__VA_ARGS__)
+enum status {
+  FAIL = 0,
+  SUCCESS = 1,
+  ARRAY_INDEX_OUT_OF_BOUND = 100,
+  DOUBLE_FREE = 200,
+  FREE_ON_NOHEAP_OBJECT = 201,
+};
 
-#endif
+typedef enum status STATUS;
+typedef enum status ERROR_CODE;
+
+
+#define BACKGROUND_PRINT_BEGIN "\033[7m\033[34m"
+#define BACKGROUND_PRINT_END "\033[0m\033[0m"
+
+#define DIM_PRINT_BEGIN "\033[2m"
+#define DIM_PRINT_END "\033[0m"
+
+#define UNDERLINE_PRINT_BEGIN "\033[4m\033[31m"
+#define UNDERLINE_PRINT_END "\033[0m\033[0m"
