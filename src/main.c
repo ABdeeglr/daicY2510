@@ -1,14 +1,8 @@
-#include "./analysis/fsort_analysis.h"
-#include "easy_print.h"
-#include "fia/fia.h"
-#include "fsort/fsort.h"
+#include "./debug.h"
 
 int main(const int argc, const char *argv[]) {
 
-
-  printf(UNDERLINE_PRINT_BEGIN);
-  printf("Hello world.\n");
-  printf(UNDERLINE_PRINT_END);
+  __INFO("She walks int bueaty");
   
   return 0;
 }
