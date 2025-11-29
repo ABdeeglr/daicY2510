@@ -19,6 +19,10 @@ private_func void reset_counter();
 private_func void read_counter();
 private_func void add_counter();
 private_func void print_seperator();
+private_func void ft2d_merge(IA arr);
+private_func void fd2t_merge(IA arr);
+
+
 
 /**
  * 选择排序:
@@ -212,6 +216,7 @@ public_func void insertion_sort(IA arr, Behavior be) {
 }
 
 public_func void shell_sort(IA arr, Behavior be) {
+<<<<<<< HEAD
 
   if (VISUALIZE_MODE) {
     printf("\n= = = 正在进行希尔排序可视化 = = =\n");
@@ -258,6 +263,33 @@ public_func void shell_sort(IA arr, Behavior be) {
   }
 
   if (be != NULL) {
+=======
+  if (ANALYSIS_MODE) {
+    
+  }
+  else {
+    int N = arr->capacity;
+    int h = 1;
+
+    // To find the h-ordered array as beginning, we suggest that
+    // an sub-array should have at least 2 elements, so N/3 is the
+    // upper bound of count of h-order sub-array, for each contains
+    // at least 2 elements and eventually 3 elements;
+    while (h < N / 3)
+      h = 3 * h + 1; // 1 -> 4 -> 13 -> 40 -> 121 -> ...
+
+    // 1-order array means the whole array was sorted
+    while (h >= 1) {
+      for (int i = h; i < N; i++) { // TODO: not understand now...
+        for (int j = i; j >= h && less(arr, j, j - h); j -= h) {
+          exch(arr, j, j - h);
+        }
+      }
+      h = h / 3;
+    }
+  }
+  if (ANALYSIS_MODE && (be != NULL)) {
+>>>>>>> sort
     be();
   }
 }
