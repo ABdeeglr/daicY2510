@@ -11,6 +11,7 @@
 struct int_array {
     int* body;              // 数组数据指针
     int capacity;  // 数组的最大容量
+    struct int_array* origin;
 };
 
 typedef struct int_array* IntArray;
@@ -31,7 +32,7 @@ IA int_array_create(int capacity);
  * @brief 释放 int_array 内部数据内存并安全归零结构体。
  * * @param arr 指向待销毁的数组结构体的指针。
  */
-void int_array_destroy(IA arr);
+bool int_array_destroy(IA arr);
 
 // =========================================================
 // II. 访问与修改
@@ -88,6 +89,7 @@ void int_array_fill_random_with_bound(IA arr, int bound);
 
 
 IA int_array_slice(IA arr, int start, int end);
+IA int_array_reference(IA arr, int start, int end);
 
 
 

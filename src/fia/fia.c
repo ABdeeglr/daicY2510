@@ -32,19 +32,27 @@ public_func void int_array_print(const IA arr) {
 }
 
 public_func IA int_array_create(int capacity) {
-  IA ia = (IA)malloc(sizeof(struct int_array));
+  IA ia = (IA) malloc(sizeof(struct int_array));
   ia->body = (int *)calloc(capacity, sizeof(int));
   ia->capacity = capacity;
+  ia->origin = NULL;
   return ia;
 }
 
-public_func void int_array_destroy(IA arr) {
-  if (1) {
-    if (arr != NULL) {
-      if (arr->body != NULL)
-        free(arr->body);
-      free(arr);
-    }
+public_func bool int_array_destroy(IA arr) {
+  if (arr == NULL) {
+    __ERROR("Double Free!");
+    exit(101);
+  }
+  
+  if (arr->origin != NULL) {
+    __WARNING("This Operation will not effected!");
+    __WARNING("Because you are trying to free a reference but not an object on heap.");
+    __WARNING("%p", arr);
+    return false;
+  } else {
+    // TODO
+    return true;
   }
 }
 
@@ -108,6 +116,12 @@ public_func IA int_array_slice(IA arr, int start, int end) {
   }
   return res;
 }
+
+// TODO
+IA int_array_reference(IA arr, int start, int end) {
+  return NULL;
+}
+
 
 public_func void int_array_reverse(IA arr) {
   int step = arr->capacity / 2;
