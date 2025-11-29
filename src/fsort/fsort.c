@@ -1,9 +1,4 @@
-/**
- * The core of this src file you should know is 2 or more sort algorithm
- * These core functions are marked by a MACRO: public_func
- * And these marked by the MACRO: private_func, although you can use because C
- *   doesn't support encapsulation, but is recommended not to use anyway.
- *
+/** * The core of this src file you should know is 2 or more sort algorithm * These core functions are marked by a MACRO: public_func * And these marked by the MACRO: private_func, although you can use because C *   doesn't support encapsulation, but is recommended not to use anyway. *
  * Author: ABdeeglr Ramsay
  * Email: abdeeglr@icloud.com
  * Number: +114 514-1919-810 XD
@@ -216,56 +211,8 @@ public_func void insertion_sort(IA arr, Behavior be) {
 }
 
 public_func void shell_sort(IA arr, Behavior be) {
-<<<<<<< HEAD
-
-  if (VISUALIZE_MODE) {
-    printf("\n= = = 正在进行希尔排序可视化 = = =\n");
-    printf(" i  j ||");
-    for (int i = 0; i < arr->capacity; i++) {
-      printf("%4d", i);
-    }
-    printf("\n");
-    printf("      ||");
-    for (int i = 0; i < arr->capacity; i++) {
-      printf("%4d", arr->body[i]);
-    }
-    printf("\n");
-  }
-
-  int N = arr->capacity;
-  int h = 1;
-
-  // To find the h-ordered array as beginning, we suggest that
-  // an sub-array should have at least 2 elements, so N/3 is the
-  // upper bound of count of h-order sub-array, for each contains
-  // at least 2 elements and eventually 3 elements;
-  while (h < N / 3)
-    h = 3 * h + 1; // 1 -> 4 -> 13 -> 40 -> 121 -> ...
-
-  // 1-order array means the whole array was sorted
-  while (h >= 1) {
-    for (int i = h; i < N; i++) { // TODO: not understand now...
-      for (int j = i; j >= h && less(arr, j, j - h); j -= h) {
-        if (VISUALIZE_MODE) {
-          printf("%2d %2d ||", j, i);
-          for (int k = 0; k < arr->capacity; k++) {
-            if (k <= i && k >= j)
-              printf("\033[2m%4d\033[0m", arr->body[k]);
-            else
-              printf("%4d", arr->body[k]);
-          }
-          printf("\n");
-        }
-        exch(arr, j, j - h);
-      }
-    }
-    h = h / 3;
-  }
-
-  if (be != NULL) {
-=======
   if (ANALYSIS_MODE) {
-    
+    // TODO    
   }
   else {
     int N = arr->capacity;
@@ -280,7 +227,7 @@ public_func void shell_sort(IA arr, Behavior be) {
 
     // 1-order array means the whole array was sorted
     while (h >= 1) {
-      for (int i = h; i < N; i++) { // TODO: not understand now...
+      for (int i = h; i < N; i++) {
         for (int j = i; j >= h && less(arr, j, j - h); j -= h) {
           exch(arr, j, j - h);
         }
@@ -289,17 +236,17 @@ public_func void shell_sort(IA arr, Behavior be) {
     }
   }
   if (ANALYSIS_MODE && (be != NULL)) {
->>>>>>> sort
     be();
   }
 }
 
 private_func void exch(IA arr, int a, int b) {
   if (a > arr->capacity - 1 || b > arr->capacity - 1) {
+    if (DEBUG_MODE) {
     __ERROR("Array Index out bound!");
-    __ERROR("At exchange [%d] <--> [%d] with range: [0, %d]\n", a, b,
-            arr->capacity - 1);
-    exit(-1);
+    __INFO("At exchange [%d] <--> [%d] with range: [0, %d]\n", a, b, arr->capacity - 1);
+    }
+    exit(ARRAY_INDEX_OUT_OF_BOUND);
   }
   add_counter();
   int tmp = arr->body[a];
@@ -309,10 +256,12 @@ private_func void exch(IA arr, int a, int b) {
 
 private_func bool less(IA arr, int a, int b) {
   if (a > arr->capacity - 1 || b > arr->capacity - 1) {
+    if (DEBUG_MODE) {
     __ERROR("Array Index out bound!");
-    __ERROR("At exchange [%d] <--> [%d] with range: [0, %d]\n", a, b,
-            arr->capacity - 1);
-    exit(-1);
+    __INFO("At exchange [%d] <--> [%d] with range: [0, %d]\n", a, b, arr->capacity - 1);
+      
+    }
+    exit(ARRAY_INDEX_OUT_OF_BOUND);
   }
 
   if (arr->body[a] < arr->body[b])
