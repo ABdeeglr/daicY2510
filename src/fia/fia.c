@@ -31,6 +31,14 @@ public_func void int_array_print(const IA arr) {
 }
 
 public_func IA int_array_create(int capacity) {
+  if (capacity < 0) {
+    __ERROR("Invalid argument");
+    exit(FAIL);
+  }
+  if (capacity == 0) {
+    __WARNING("Not a proper argument, IA created faild with NULL retur type");
+    return NULL;
+  }
   IA ia = (IA) malloc(sizeof(struct int_array));
   ia->body = (int *)calloc(capacity, sizeof(int));
   ia->capacity = capacity;
@@ -191,6 +199,7 @@ public_func bool int_array_is_ordered_asc(IA arr) {
     if (arr->body[i] <= arr->body[i+1]) continue;
     else return false;
   }
+  __INFO("%p is ordered ASC", arr);
   return true;
 }
 
@@ -199,6 +208,7 @@ public_func bool int_array_is_ordered_desc(IA arr) {
     if (arr->body[i] >= arr->body[i+1]) continue;
     else return false;
   }
+  __INFO("%p is ordered DESC", arr);
   return true;
   
 }
