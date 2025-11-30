@@ -1,7 +1,7 @@
 #include "./fia.h"
 
 #define public_func
-#define private_func
+#define private_func static
 
 
 private_func int f_sqrt(int n) {

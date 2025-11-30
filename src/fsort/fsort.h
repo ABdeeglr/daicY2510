@@ -8,7 +8,7 @@
 #endif
 
 #ifndef private_func
-#define private_func
+#define private_func static
 #endif
 
 typedef void (*Behavior)(void);
