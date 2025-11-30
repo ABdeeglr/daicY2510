@@ -1,7 +1,11 @@
 #include "./fsort_analysis.h"
+#include <stdio.h>
 #include <unistd.h>
 
-long array_processor_timing(ArrayProcessor alg, IA arr) {
+private_func long array_processor_timing(ArrayProcessor alg, IA arr);
+
+
+private_func long array_processor_timing(ArrayProcessor alg, IA arr) {
     clock_t start = clock();
     alg(arr, NULL);
     clock_t end = clock();
@@ -9,10 +13,19 @@ long array_processor_timing(ArrayProcessor alg, IA arr) {
     return (long) diff;
 }
 
-void fsort_analyer(ArrayProcessor alg, int scale, int round) {
-  printf("\033[2mMake sure you switch the MACRO: VISUALIZE_MODE and ANALYSIS_MODE OFF.\033[0m\n");
-  printf("\033[2mOtherwise the actual runtime cost maybe longer than supposed.\033[0m\n");
+public_func long single_scale_fsort_analyer(ArrayProcessor alg, int scale, int round) {
+  if (VISUALIZE_MODE || ANALYSIS_MODE) {
+    printf(UNDERLINE_PRINT_BEGIN);
+    printf("Make sure you switch the MACRO: VISUALIZE_MODE and ANALYSIS_MODE OFF.\n");
+    printf("Or in debug mode will not run this script\n");
+    printf(UNDERLINE_PRINT_END);
+    return 0;
+  }
 
+  printf(BACKGROUND_PRINT_BEGIN);
+  printf("= = = = = = = = = = = = = = = = = =\n");
+  printf("= = = = = = = = = = = = = = = = = =\n");
+  printf(BACKGROUND_PRINT_END);
   printf("Analyzer Data Scale: %d\n", scale);
   int i = 1;
   long total = 0;
@@ -28,15 +41,48 @@ void fsort_analyer(ArrayProcessor alg, int scale, int round) {
     printf("Round: %d CPU Costs: %ld mils\n", i, times/1000);
     total+= times;
   } while (i++ < round);
-  
+
+  long average = total / 1000 / round;
   printf("Total CPU Costs In \033[31m%d\033[0m rounds: \033[31m%ld mils\033[0m\n", round, total/1000);
-  printf("Total CPU Costs Average: \033[31m%ld mils\033[0m\n", total/1000 / round);
+  printf("Total CPU Costs Average: \033[31m%ld mils\033[0m\n", average);
+  printf(BACKGROUND_PRINT_BEGIN);
+  printf("= = = = = = = = = = = = = = = = = =\n");
+  printf("= = = = = = = = = = = = = = = = = =\n\n");
+  printf(BACKGROUND_PRINT_END);
+
+  return average;
+}
+
+public_func void multi_scale_fsort_analyer(ArrayProcessor alg,int initial_scale, int expand_times) {
+  if (VISUALIZE_MODE || ANALYSIS_MODE) {
+    printf(UNDERLINE_PRINT_BEGIN);
+    printf("Make sure you switch the MACRO: VISUALIZE_MODE and ANALYSIS_MODE OFF.\n");
+    printf("Or in debug mode will not run this script\n");
+    printf(UNDERLINE_PRINT_END);
+    return;
+  }
+
+  if (expand_times > 18) {
+    __INFO("Too large scale in the end");
+    return;
+  }
+  long avgs[expand_times];
+
+  for (int i = 0; i < expand_times; i++) {
+    avgs[i] = single_scale_fsort_analyer(alg, initial_scale << i, 5);
+  }
+  
+  for (int i = 0; i < expand_times; i++) {
+  printf(BACKGROUND_PRINT_BEGIN);
+    printf("%ld mils\n", avgs[i]);
+  printf(BACKGROUND_PRINT_END);
+  }
 }
 
 /**
  * 测试插入排序在 2-有序数组 上的性能表现，作为理解 shell 排序加速原理的突破口尝试。
  */
-void sub_analysis_2_ordered_array_analysis(int scale, int round) {
+private_func void sub_analysis_2_ordered_array_analysis(int scale, int round) {
   
   printf("\033[2mMake sure you switch the MACRO: VISUALIZE_MODE and ANALYSIS_MODE **ON**.\033[0m\n");
   int i = 1;

@@ -14,8 +14,10 @@ private_func void reset_counter();
 private_func void read_counter();
 private_func void add_counter();
 private_func void print_seperator();
-private_func void ft2d_merge(IA arr);
-private_func void fd2t_merge(IA arr);
+private_func void merge(IA arr, int* tmp, int lo, int mid, int hi);
+private_func void inner_merge_sort(IA arr, int* tmp, int lo, int hi);
+// private_func void ft2d_merge(IA arr);
+// private_func void fd2t_merge(IA arr);
 
 
 
@@ -239,6 +241,47 @@ public_func void shell_sort(IA arr, Behavior be) {
     be();
   }
 }
+
+private_func void merge(IA arr, int* tmp, int lo, int mid, int hi) {
+  int i = lo, j = mid + 1;
+
+  // Copy all elements from origin array
+  for (int k = lo; k <= hi; k++) {
+    tmp[k - lo] = arr->body[k];
+  }
+
+  // Merge from tmp array into origin array
+  for (int k = lo; k <= hi; k++) {
+    // Terminate condition:
+    if                        (i > mid) arr->body[k] = tmp[j++ - lo];
+    else if                    (j > hi) arr->body[k] = tmp[i++ - lo];
+    else if (tmp[j - lo] < tmp[i - lo]) arr->body[k] = tmp[j++ - lo];
+    else                                arr->body[k] = tmp[i++ - lo];
+  }
+
+}
+
+private_func void inner_merge_sort(IA arr, int* tmp, int lo, int hi) {
+  if (hi <= lo) return;
+  int mid = lo + ((hi - lo) / 2);
+  inner_merge_sort(arr, tmp, lo, mid);
+  inner_merge_sort(arr, tmp, mid+1, hi);
+  merge(arr, tmp, lo, mid, hi);
+}
+
+//TODO
+public_func void merge_sort(IA arr, Behavior be) {
+
+  int* tmp = (int*) calloc(arr->capacity, sizeof(int));
+
+  inner_merge_sort(arr, tmp, 0, arr->capacity - 1);
+
+  free(tmp);
+
+  if (ANALYSIS_MODE && (be != NULL)) be();
+}
+
+/********** Private Functions **************/
 
 private_func void exch(IA arr, int a, int b) {
   if (a > arr->capacity - 1 || b > arr->capacity - 1) {

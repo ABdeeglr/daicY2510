@@ -1,11 +1,11 @@
-#include "./fia/fia.h"
+#include "./analysis/fsort_analysis.h"
 
 int main(const int argc, const char *argv[]) {
 
-  IA arr = int_array_create(20);
-  int_array_destroy(arr);
+  // multi_scale_fsort_analyer(merge_sort, 4096, 10);
 
-  printf("%p", arr);
+  int d = atoi(argv[1]);
+  single_scale_fsort_analyer(merge_sort, 1024 << d, 3);
 
   
   return 0;

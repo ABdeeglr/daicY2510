@@ -1,8 +1,7 @@
 #pragma once
 #include "../fsort/fsort.h"
 
-long array_processor_timing(ArrayProcessor alg, IA arr);
 
-void fsort_analyer(ArrayProcessor alg, int scale, int round);
+long single_scale_fsort_analyer(ArrayProcessor alg, int scale, int round);
+void multi_scale_fsort_analyer(ArrayProcessor alg, int initiali_scale, int expand_times);
 
-void sub_analysis_2_ordered_array_analysis(int scale, int round);
