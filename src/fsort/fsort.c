@@ -246,7 +246,7 @@ private_func void exch(IA arr, int a, int b) {
     __ERROR("Array Index out bound!");
     __INFO("At exchange [%d] <--> [%d] with range: [0, %d]\n", a, b, arr->capacity - 1);
     }
-    exit(ARRAY_INDEX_OUT_OF_BOUND);
+    exit(ER100_ARRAY_INDEX_OUT_OF_BOUND);
   }
   add_counter();
   int tmp = arr->body[a];
@@ -261,7 +261,7 @@ private_func bool less(IA arr, int a, int b) {
     __INFO("At exchange [%d] <--> [%d] with range: [0, %d]\n", a, b, arr->capacity - 1);
       
     }
-    exit(ARRAY_INDEX_OUT_OF_BOUND);
+    exit(ER100_ARRAY_INDEX_OUT_OF_BOUND);
   }
 
   if (arr->body[a] < arr->body[b])

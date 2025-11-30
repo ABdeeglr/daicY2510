@@ -1,5 +1,4 @@
 #include "./fia.h"
-#include "../debug.h"
 
 #define public_func
 #define private_func
@@ -39,36 +38,53 @@ public_func IA int_array_create(int capacity) {
   return ia;
 }
 
-public_func bool int_array_destroy(IA arr) {
+public_func EXEC_STATUS int_array_destroy(IA arr) {
+
+  // Pointer has been freed or reasigned
   if (arr == NULL) {
     __ERROR("Double Free!");
-    exit(101);
+    if (DEBUG_MODE) exit(ER200_DOUBLE_FREE);
+    return ER200_DOUBLE_FREE;
   }
-  
+
+  // Not a real IA pointer but an reference
   if (arr->origin != NULL) {
     __WARNING("This Operation will not effected!");
     __WARNING("Because you are trying to free a reference but not an object on heap.");
     __WARNING("%p", arr);
-    return false;
-  } else {
-    // TODO
-    return true;
+    return ER201_FREE_ON_NOHEAP_OBJECT;
   }
+
+  // Unknown Error
+  if (arr->body == NULL) {
+
+    __ERROR("Unknow error on free IA's body!");
+    if (DEBUG_MODE) exit(FAIL);
+    return FAIL;
+  }
+  
+  free(arr->body);
+  free(arr);
+  return SUCCESS;
 }
 
 public_func int int_array_get(const IA arr, int index) {
   if (index >= arr->capacity) {
-    __WARNING("Int Array Index Out of Bound");
-    exit(1);
+    __ERROR("Int Array Index Out of Bound");
+    exit(ER100_ARRAY_INDEX_OUT_OF_BOUND);
   } else {
     return arr->body[index];
   }
 }
 
 public_func void int_array_set(IA arr, int index, int value) {
+  if (index < 0) {
+    __ERROR("Invalid argument: index: %d < 0", index);
+    exit(FAIL);
+  }
   if (index >= arr->capacity) {
-    __WARNING("Int Array Index Out of Bound");
-    exit(1);
+    __ERROR("Int Array Index Out of Bound");
+    exit(ER100_ARRAY_INDEX_OUT_OF_BOUND);
   } else {
     arr->body[index] = value;
   }
@@ -79,7 +95,7 @@ public_func int int_array_capacity(const IA arr) {
 }
 
 public_func void int_array_fill_random_with_bound(IA arr, int bound) {
-  if (bound > RAND_MAX) exit(1);
+  if (bound > RAND_MAX) exit(FAIL);
   srand((unsigned)time(NULL));
   for (int i = 0; i < arr->capacity; i++) {
     arr->body[i] = rand() % bound;
@@ -95,8 +111,8 @@ public_func void int_array_fill_random(IA arr) {
 
 public_func IA int_array_slice(IA arr, int start, int end) {
   if (end > arr->capacity) {
-    __ERROR("Index out of bound. CODE: 301");
-    exit(1);
+    __ERROR("Int Array Index Out of Bound");
+    exit(ER100_ARRAY_INDEX_OUT_OF_BOUND);
   }
 
   int cap;
@@ -106,20 +122,48 @@ public_func IA int_array_slice(IA arr, int start, int end) {
   } else {
     cap = end - start;
   }
+  
   if (cap > arr->capacity) {
-    __ERROR("Index out of bound. CODE: 302");
-    exit(1);
+    __ERROR("Cannot clone an array larger than its origin");
+    __ERROR("Int Array Index Out of Bound");
+    exit(ER100_ARRAY_INDEX_OUT_OF_BOUND);
   }
+  
   IA res = int_array_create(cap);
+
   for (int i = 0; i < res->capacity; i++) {
     res->body[i] = arr->body[start + i];
   }
+
   return res;
 }
 
-// TODO
 IA int_array_reference(IA arr, int start, int end) {
-  return NULL;
+  if (end > arr->capacity) {
+    __ERROR("Int Array Index Out of Bound");
+    exit(ER100_ARRAY_INDEX_OUT_OF_BOUND);
+  }
+
+  int cap;
+  if (end < start) {
+    __WARNING("Array Index shoule be reverse");
+    cap = start - end;
+  } else {
+    cap = end - start;
+  }
+  
+  if (cap > arr->capacity) {
+    __ERROR("Cannot reference an array larger than its origin");
+    __ERROR("Int Array Index Out of Bound");
+    exit(ER100_ARRAY_INDEX_OUT_OF_BOUND);
+  }
+
+  IA res = (IA) malloc(sizeof(struct int_array));
+  res->origin = arr;
+  res->capacity = cap;
+  res->body = arr->body + start;
+
+  return res;
 }
 
 
