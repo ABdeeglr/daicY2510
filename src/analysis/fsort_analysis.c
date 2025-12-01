@@ -35,7 +35,11 @@ public_func long single_scale_fsort_analyer(ArrayProcessor alg, int scale, int r
     int_array_fill_random_with_bound(arr, scale * 10);
 
     long times = array_processor_timing(alg, arr);
-
+    if (int_array_is_ordered_asc(arr)) {
+      __INFO("Sort Corrected!");
+    } else {
+      __WARNING("This sort method something wrong.");
+    }
     int_array_destroy(arr);
 
     printf("Round: %d CPU Costs: %ld mils\n", i, times/1000);

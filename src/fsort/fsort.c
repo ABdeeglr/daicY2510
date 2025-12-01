@@ -6,6 +6,10 @@
 
 #include "./fsort.h"
 
+#ifndef LIMITED
+#define LIMITED 300
+#endif
+
 int __fsrt_global_counter = 0;
 
 private_func void exch(IA arr, int a, int b);
@@ -15,7 +19,8 @@ private_func void read_counter();
 private_func void add_counter();
 private_func void print_seperator();
 private_func void merge(IA arr, int* tmp, int lo, int mid, int hi);
-private_func void inner_merge_sort(IA arr, int* tmp, int lo, int hi);
+// private_func void inner_merge_sort(IA arr, int* tmp, int lo, int hi);
+private_func void inner_merge_sort_limited(IA arr, int* tmp, int lo, int hi);
 // private_func void ft2d_merge(IA arr);
 // private_func void fd2t_merge(IA arr);
 
@@ -247,34 +252,44 @@ private_func void merge(IA arr, int* tmp, int lo, int mid, int hi) {
 
   // Copy all elements from origin array
   for (int k = lo; k <= hi; k++) {
-    tmp[k - lo] = arr->body[k];
+    tmp[k] = arr->body[k];
   }
 
   // Merge from tmp array into origin array
   for (int k = lo; k <= hi; k++) {
     // Terminate condition:
-    if                        (i > mid) arr->body[k] = tmp[j++ - lo];
-    else if                    (j > hi) arr->body[k] = tmp[i++ - lo];
-    else if (tmp[j - lo] < tmp[i - lo]) arr->body[k] = tmp[j++ - lo];
-    else                                arr->body[k] = tmp[i++ - lo];
+    if      (i > mid)         arr->body[k] = tmp[j++];
+    else if (j > hi)          arr->body[k] = tmp[i++];
+    else if (tmp[j] < tmp[i]) arr->body[k] = tmp[j++];
+    else                      arr->body[k] = tmp[i++];
   }
 
 }
 
-private_func void inner_merge_sort(IA arr, int* tmp, int lo, int hi) {
-  if (hi <= lo) return;
+// private_func void inner_merge_sort(IA arr, int* tmp, int lo, int hi) {
+//   if (hi <= lo) return;
+//   int mid = lo + ((hi - lo) / 2);
+//   inner_merge_sort(arr, tmp, lo, mid);
+//   inner_merge_sort(arr, tmp, mid+1, hi);
+//   merge(arr, tmp, lo, mid, hi);
+// }
+
+private_func void inner_merge_sort_limited(IA arr, int* tmp, int lo, int hi) {
+  if (hi <= lo + LIMITED) {
+    shell_sort(int_array_reference(arr, lo, hi), NULL);
+    return;
+  }
   int mid = lo + ((hi - lo) / 2);
-  inner_merge_sort(arr, tmp, lo, mid);
-  inner_merge_sort(arr, tmp, mid+1, hi);
+  inner_merge_sort_limited(arr, tmp, lo, mid);
+  inner_merge_sort_limited(arr, tmp, mid+1, hi);
   merge(arr, tmp, lo, mid, hi);
 }
 
-//TODO
 public_func void merge_sort(IA arr, Behavior be) {
 
   int* tmp = (int*) calloc(arr->capacity, sizeof(int));
 
-  inner_merge_sort(arr, tmp, 0, arr->capacity - 1);
+  inner_merge_sort_limited(arr, tmp, 0, arr->capacity - 1);
 
   free(tmp);
 
