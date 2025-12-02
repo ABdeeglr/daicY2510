@@ -10,20 +10,18 @@
 #define LIMITED 300
 #endif
 
-int __fsrt_global_counter = 0;
+// Core
+private_func void exch(IA arr, int a, int b, SortContext* ctx);
+private_func bool less(IA arr, int a, int b, SortContext* ctx);
 
-private_func void exch(IA arr, int a, int b);
-private_func bool less(IA arr, int a, int b);
-private_func void reset_counter();
-private_func void read_counter();
-private_func void add_counter();
-private_func void print_seperator();
+
+// Only for merge sort
 private_func void merge(IA arr, int* tmp, int lo, int mid, int hi);
 // private_func void inner_merge_sort(IA arr, int* tmp, int lo, int hi);
 private_func void inner_merge_sort_limited(IA arr, int* tmp, int lo, int hi);
-// private_func void ft2d_merge(IA arr);
-// private_func void fd2t_merge(IA arr);
 
+// Other
+private_func void print_seperator();
 
 
 /**
@@ -40,7 +38,7 @@ private_func void inner_merge_sort_limited(IA arr, int* tmp, int lo, int hi);
  * 这是因为第一遍扫描数组得到的信息，在下一轮循环中没什么用，还得重复一次。
  * 其他算法希望比选择排序更”聪明点“。
  */
-public_func void selection_sort(IA arr, Behavior be) {
+public_func void selection_sort(IA arr, SortContext* ctx) {
 
   if (VISUALIZE_MODE) {
 
@@ -66,7 +64,7 @@ public_func void selection_sort(IA arr, Behavior be) {
     for (int i = 0; i < N; i++) {
       int min = i;
       for (int j = i + 1; j < N; j++) {
-        if (less(arr, j, min))
+        if (less(arr, j, min, ctx))
           min = j;
       }
 
@@ -91,7 +89,7 @@ public_func void selection_sort(IA arr, Behavior be) {
           printf("%4d", arr->body[x]);
       }
       printf("\n");
-      exch(arr, i, min);
+      exch(arr, i, min, ctx);
     }
     printf("Finish!");
     print_seperator();
@@ -115,19 +113,15 @@ public_func void selection_sort(IA arr, Behavior be) {
       for (int j = i + 1; j < N; j++) {
         // We suppose `j = i+1` as the initial smallest element's index
         // If find an element smaller than it, than replace it.
-        if (less(arr, j, min))
+        if (less(arr, j, min, ctx))
           min = j;
       }
 
       // After we find the smallest element's index, exchange it
-      exch(arr, i, min);
+      exch(arr, i, min, ctx);
     }
   }
 
-  if (ANALYSIS_MODE) {
-    if (be != NULL)
-      be();
-  }
   return;
 }
 
@@ -137,11 +131,10 @@ public_func void selection_sort(IA arr, Behavior be) {
  * 首先，把第 1 个元素放到第 1 个位置（这看起来是废话），
  * 然后开始遍历，因为第一个元素已经有序了，所以把第 i 个元素插入到有序的数组中；
  */
-public_func void insertion_sort(IA arr, Behavior be) {
+public_func void insertion_sort(IA arr, SortContext* ctx) {
   const int N = arr->capacity;
 
   if (VISUALIZE_MODE) {
-
     printf("\n= = = 正在进行 Insertion Sort 可视化 = = =\n");
     printf("  i  j");
     print_seperator();
@@ -169,8 +162,8 @@ public_func void insertion_sort(IA arr, Behavior be) {
 
       int position = i;
 
-      for (int j = i; j > 0 && less(arr, j, j - 1); j--) {
-        exch(arr, j, j - 1);
+      for (int j = i; j > 0 && less(arr, j, j - 1, ctx); j--) {
+        exch(arr, j, j - 1, ctx);
         position--;
       }
 
@@ -204,21 +197,17 @@ public_func void insertion_sort(IA arr, Behavior be) {
 
   } else {
     for (int i = 1; i < N; i++) {
-      for (int j = i; j > 0 && less(arr, j, j - 1); j--) {
-        exch(arr, j, j - 1);
+      for (int j = i; j > 0 && less(arr, j, j - 1, ctx); j--) {
+        exch(arr, j, j - 1, ctx);
       }
     }
   }
 
-  if (ANALYSIS_MODE) {
-    if (be != NULL)
-      be();
-  }
   return;
 }
 
-public_func void shell_sort(IA arr, Behavior be) {
-  if (ANALYSIS_MODE) {
+public_func void shell_sort(IA arr, SortContext* ctx) {
+  if (VISUALIZE_MODE) {
     // TODO    
   }
   else {
@@ -235,15 +224,12 @@ public_func void shell_sort(IA arr, Behavior be) {
     // 1-order array means the whole array was sorted
     while (h >= 1) {
       for (int i = h; i < N; i++) {
-        for (int j = i; j >= h && less(arr, j, j - h); j -= h) {
-          exch(arr, j, j - h);
+        for (int j = i; j >= h && less(arr, j, j - h, ctx); j -= h) {
+          exch(arr, j, j - h, ctx);
         }
       }
       h = h / 3;
     }
-  }
-  if (ANALYSIS_MODE && (be != NULL)) {
-    be();
   }
 }
 
@@ -285,20 +271,18 @@ private_func void inner_merge_sort_limited(IA arr, int* tmp, int lo, int hi) {
   merge(arr, tmp, lo, mid, hi);
 }
 
-public_func void merge_sort(IA arr, Behavior be) {
+public_func void merge_sort(IA arr, SortContext* ctx) {
 
   int* tmp = (int*) calloc(arr->capacity, sizeof(int));
 
   inner_merge_sort_limited(arr, tmp, 0, arr->capacity - 1);
 
   free(tmp);
-
-  if (ANALYSIS_MODE && (be != NULL)) be();
 }
 
 /********** Private Functions **************/
 
-private_func void exch(IA arr, int a, int b) {
+private_func void exch(IA arr, int a, int b, SortContext* ctx) {
   if (a > arr->capacity - 1 || b > arr->capacity - 1) {
     if (DEBUG_MODE) {
     __ERROR("Array Index out bound!");
@@ -306,13 +290,15 @@ private_func void exch(IA arr, int a, int b) {
     }
     exit(ER100_ARRAY_INDEX_OUT_OF_BOUND);
   }
-  add_counter();
+
+  if (ctx != NULL) ctx->exchanges++;
+
   int tmp = arr->body[a];
   arr->body[a] = arr->body[b];
   arr->body[b] = tmp;
 }
 
-private_func bool less(IA arr, int a, int b) {
+private_func bool less(IA arr, int a, int b, SortContext* ctx) {
   if (a > arr->capacity - 1 || b > arr->capacity - 1) {
     if (DEBUG_MODE) {
     __ERROR("Array Index out bound!");
@@ -322,24 +308,15 @@ private_func bool less(IA arr, int a, int b) {
     exit(ER100_ARRAY_INDEX_OUT_OF_BOUND);
   }
 
+  if (ctx != NULL) ctx->comparisons++;
+
   if (arr->body[a] < arr->body[b])
     return true;
   else
     return false;
 }
 
-private_func void add_counter() { __fsrt_global_counter++; }
 
-private_func void reset_counter() { __fsrt_global_counter = 0; }
-
-private_func void read_counter() {
-  printf("Exec Counter: %d\n", __fsrt_global_counter);
-}
-
-public_func void analysis() {
-  read_counter();
-  reset_counter();
-}
 
 private_func void print_seperator() {
   printf(" ");

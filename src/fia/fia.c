@@ -117,6 +117,47 @@ public_func void int_array_fill_random(IA arr) {
   }
 }
 
+public_func void int_array_fill_sequential(IA arr) {
+  if (arr != NULL) {
+    for (int i = 0; i < arr->capacity; i++) {
+      arr->body[i] = i;
+    }
+  } else {
+    __WARNING("Null pointer Error");
+    return;
+  }
+}
+
+public_func void int_array_fill_almost_sorted(IA arr, int swaps) {
+  if (arr == NULL || swaps < 0) return;
+  
+  // 1. 先生成一个完全有序的数组
+  int_array_fill_sequential(arr); 
+
+  // 2. 进行少量随机交换，破坏其有序性
+  srand((unsigned)time(NULL));
+  for (int i = 0; i < swaps; i++) {
+    int idx1 = rand() % arr->capacity;
+    int idx2 = rand() % arr->capacity;
+    
+    // 简单交换（使用 IA 的底层 body 访问更高效）
+    int tmp = arr->body[idx1];
+    arr->body[idx1] = arr->body[idx2];
+    arr->body[idx2] = tmp;
+  }
+}
+
+public_func void int_array_fill_few_unique(IA arr, int bound) {
+  if (arr == NULL) return;
+  if (bound <= 0) bound = 1; // 至少包含一个键值
+  
+  srand((unsigned)time(NULL));
+  for (int i = 0; i < arr->capacity; i++) {
+    // 确保键值分布在 [0, bound - 1] 之间，bound 越小，重复越多
+    arr->body[i] = rand() % bound;
+  }
+}
+
 public_func IA int_array_slice(IA arr, int start, int end) {
   if (end > arr->capacity) {
     __ERROR("Int Array Index Out of Bound");
