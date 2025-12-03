@@ -57,15 +57,12 @@ public_func EXEC_STATUS int_array_destroy(IA arr) {
 
   // Not a real IA pointer but an reference
   if (arr->origin != NULL) {
-    __WARNING("This Operation will not effected!");
-    __WARNING("Because you are trying to free a reference but not an object on heap.");
-    __WARNING("%p", arr);
-    return ER201_FREE_ON_NOHEAP_OBJECT;
+    free(arr);
+    return SUCCESS;
   }
 
   // Unknown Error
   if (arr->body == NULL) {
-
     __ERROR("Unknow error on free IA's body!");
     if (DEBUG_MODE) exit(FAIL);
     return FAIL;
@@ -208,6 +205,11 @@ IA int_array_reference(IA arr, int start, int end) {
   }
 
   IA res = (IA) malloc(sizeof(struct int_array));
+  // struct int_array res = {
+  //   arr->body + start,
+  //   cap,
+  //   arr
+  // };
   res->origin = arr;
   res->capacity = cap;
   res->body = arr->body + start;
