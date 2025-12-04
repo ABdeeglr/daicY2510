@@ -34,5 +34,20 @@ typedef enum status ERROR_CODE;
 #define DIM_PRINT_BEGIN "\033[2m"
 #define DIM_PRINT_END "\033[0m"
 
+#define RED_PRINT_BEGIN "\033[31m"
+#define RED_PRINT_END "\033[0m"
+
+#define BLUE_PRINT_BEGIN "\033[32m"
+#define BLUE_PRINT_END "\033[0m"
+
+#define YELLOW_PRINT_BEGIN "\033[33m"
+#define YELLOW_PRINT_END "\033[0m"
+
+#define AQUA_PRINT_BEGIN "\033[34m"
+#define AQUA_PRINT_END "\033[0m"
+
+#define PURPLE_PRINT_BEGIN "\033[35m"
+#define PURPLE_PRINT_END "\033[0m"
+
 #define UNDERLINE_PRINT_BEGIN "\033[4m\033[31m"
 #define UNDERLINE_PRINT_END "\033[0m\033[0m"
