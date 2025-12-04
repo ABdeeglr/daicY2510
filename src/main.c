@@ -1,18 +1,19 @@
-#include <stdio.h>
+#include "./analysis/fsort_analysis.h"
+#include "fsort/fsort.h"
 
 int main(const int argc, const char *argv[]) {
-  int i = 0;
-  
-  printf("==[3%d]== \033[30mHello world!\033[0m\n", i++);
-  printf("==[3%d]== \033[31mHello world!\033[0m\n", i++);
-  printf("==[3%d]== \033[32mHello world!\033[0m\n", i++);
-  printf("==[3%d]== \033[33mHello world!\033[0m\n", i++);
-  printf("==[3%d]== \033[34mHello world!\033[0m\n", i++);
-  printf("==[3%d]== \033[35mHello world!\033[0m\n", i++);
-  printf("==[3%d]== \033[36mHello world!\033[0m\n", i++);
-  printf("==[3%d]== \033[37mHello world!\033[0m\n", i++);
-  printf("==[3%d]== \033[38mHello world!\033[0m\n", i++);
-  printf("==[3%d]== \033[39mHello world!\033[0m\n", i++);
+
+  int d = atoi(argv[1]);
+
+  // multi_scale_fsort_analyer(quick_sort, 4096, d);
+  single_scale_fsort_analyer(quick_sort, 4096 << d,  10);
+
+  // int initial_size = 32;
+
+  // int d = atoi(argv[1]);
+  // single_scale_fsort_analyer(shell_sort, initial_size << d, 3);
+  // single_scale_fsort_analyer(selection_sort, initial_size << d, 3);
+  // single_scale_fsort_analyer(insertion_sort, initial_size << d, 3);
   
   return 0;
 }

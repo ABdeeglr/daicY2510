@@ -1,7 +1,8 @@
-/** * The core of this src file you should know is 2 or more sort algorithm * These core functions are marked by a MACRO: public_func * And these marked by the MACRO: private_func, although you can use because C *   doesn't support encapsulation, but is recommended not to use anyway. *
- * Author: ABdeeglr Ramsay
- * Email: abdeeglr@icloud.com
- * Number: +114 514-1919-810 XD
+/** * The core of this src file you should know is 2 or more sort algorithm *
+ * These core functions are marked by a MACRO: public_func * And these marked by
+ * the MACRO: private_func, although you can use because C *   doesn't support
+ * encapsulation, but is recommended not to use anyway. * Author: ABdeeglr
+ * Ramsay Email: abdeeglr@icloud.com Number: +114 514-1919-810 XD
  */
 
 #include "./fsort.h"
@@ -11,24 +12,27 @@
 #endif
 
 // Core
-private_func void exch(IA arr, int a, int b, SortContext* ctx);
-private_func bool less(IA arr, int a, int b, SortContext* ctx);
+private_func void exch(IA arr, int a, int b, SortContext *ctx);
+private_func bool less(IA arr, int a, int b, SortContext *ctx);
 
 /**
  * @Args
  * @arr, the array you want to order;
- * @tmp, a temporary copy on memory, for saving the origin data in a merge progress
+ * @tmp, a temporary copy on memory, for saving the origin data in a merge
+ * progress
  * @lo, the start of the origin arry you want to merge
  * @mid, just like above
  * @hi, just like above
  */
-private_func void merge(IA arr, int* tmp, int lo, int mid, int hi);
-private_func void inner_merge_sort_core(IA arr, int* tmp, int lo, int hi);
+private_func void merge(IA arr, int *tmp, int lo, int mid, int hi);
+private_func void inner_merge_sort_core(IA arr, int *tmp, int lo, int hi);
 // private_func void inner_merge_sort_limited(IA arr, int* tmp, int lo, int hi);
+private_func void inner_quick_sort_core(IA arr, int lo, int hi);
+private_func int partion(IA arr, int lo, int hi);
+private_func void print_ia(int* arr, int start, int end, int a, int b);
 
 // Other
 private_func void print_seperator();
-
 
 /**
  * 选择排序:
@@ -44,7 +48,7 @@ private_func void print_seperator();
  * 这是因为第一遍扫描数组得到的信息，在下一轮循环中没什么用，还得重复一次。
  * 其他算法希望比选择排序更”聪明点“。
  */
-public_func void selection_sort(IA arr, SortContext* ctx) {
+public_func void selection_sort(IA arr, SortContext *ctx) {
 
   if (VISUALIZE_MODE) {
 
@@ -137,7 +141,7 @@ public_func void selection_sort(IA arr, SortContext* ctx) {
  * 首先，把第 1 个元素放到第 1 个位置（这看起来是废话），
  * 然后开始遍历，因为第一个元素已经有序了，所以把第 i 个元素插入到有序的数组中；
  */
-public_func void insertion_sort(IA arr, SortContext* ctx) {
+public_func void insertion_sort(IA arr, SortContext *ctx) {
   const int N = arr->capacity;
 
   if (VISUALIZE_MODE) {
@@ -212,11 +216,10 @@ public_func void insertion_sort(IA arr, SortContext* ctx) {
   return;
 }
 
-public_func void shell_sort(IA arr, SortContext* ctx) {
+public_func void shell_sort(IA arr, SortContext *ctx) {
   if (VISUALIZE_MODE) {
-    // TODO    
-  }
-  else {
+    // TODO
+  } else {
     int N = arr->capacity;
     int h = 1;
 
@@ -239,7 +242,7 @@ public_func void shell_sort(IA arr, SortContext* ctx) {
   }
 }
 
-private_func void merge(IA arr, int* tmp, int lo, int mid, int hi) {
+private_func void merge(IA arr, int *tmp, int lo, int mid, int hi) {
   int i = lo, j = mid + 1;
 
   for (int k = lo; k <= hi; k++) {
@@ -247,20 +250,25 @@ private_func void merge(IA arr, int* tmp, int lo, int mid, int hi) {
   }
 
   for (int k = lo; k <= hi; k++) {
-    if      (i > mid)         arr->body[k] = tmp[j++];
-    else if (j > hi)          arr->body[k] = tmp[i++];
-    else if (tmp[j] < tmp[i]) arr->body[k] = tmp[j++];
-    else                      arr->body[k] = tmp[i++];
+    if (i > mid)
+      arr->body[k] = tmp[j++];
+    else if (j > hi)
+      arr->body[k] = tmp[i++];
+    else if (tmp[j] < tmp[i])
+      arr->body[k] = tmp[j++];
+    else
+      arr->body[k] = tmp[i++];
   }
 }
 
-
-private_func void inner_merge_sort_core(IA arr, int* tmp, int lo, int hi) {
+private_func void inner_merge_sort_core(IA arr, int *tmp, int lo, int hi) {
   if (hi < lo + LIMITED) {
-    insertion_sort(int_array_reference(arr, lo, hi), NULL);
+    IA s = int_array_reference(arr, lo, hi);
+    insertion_sort(s, NULL);
+    int_array_destroy(s);
     return;
   }
-  
+
   int mid = lo + (hi - lo) / 2;
 
   inner_merge_sort_core(arr, tmp, lo, mid);
@@ -269,7 +277,8 @@ private_func void inner_merge_sort_core(IA arr, int* tmp, int lo, int hi) {
   merge(arr, tmp, lo, mid, hi);
 }
 
-// private_func void inner_merge_sort_limited(IA arr, int* tmp, int lo, int hi) {
+// private_func void inner_merge_sort_limited(IA arr, int* tmp, int lo, int hi)
+// {
 //   if (hi <= lo + LIMITED) {
 //     insertion_sort(int_array_reference(arr, lo, hi), NULL);
 //     return;
@@ -280,52 +289,118 @@ private_func void inner_merge_sort_core(IA arr, int* tmp, int lo, int hi) {
 //   merge(arr, tmp, lo, mid, hi);
 // }
 
-public_func void merge_sort(IA arr, SortContext* ctx) {
+public_func void merge_sort(IA arr, SortContext *ctx) {
 
-  int* tmp = (int*) calloc(arr->capacity, sizeof(int));
+  int *tmp = (int *)calloc(arr->capacity, sizeof(int));
 
   inner_merge_sort_core(arr, tmp, 0, arr->capacity - 1);
 
   free(tmp);
 }
 
+private_func void inner_quick_sort_core(IA arr, int lo, int hi) {
+  if (hi <= lo) return;
+  int j = partion(arr, lo, hi);
+  inner_quick_sort_core(arr, lo, j - 1);
+  inner_quick_sort_core(arr, j + 1, hi);
+}
+
+private_func void print_ia(int* arr, int start, int end, int a, int b) {
+  printf("[");
+  for (int i = start; i < end - 1; i++) {
+    if (i == a || i == b) {
+      printf(RED_PRINT_BEGIN);
+      printf("%d, ", *(arr + i));
+      printf(RED_PRINT_END);
+    } else printf("%d, ", *(arr + i));
+  }
+  if (end - 1 == a || end - 1 == b) {
+    printf(RED_PRINT_BEGIN);
+    printf("%d]", *(arr + end - 1));
+    printf(RED_PRINT_END);
+  } else printf("%d]", *(arr + end - 1));
+  printf("\n");
+}
+
+private_func int partion(IA arr, int lo, int hi) {
+  int* a = arr->body;
+
+  int i = lo;
+  int j = hi + 1;
+  
+  int K = a[lo];
+
+  while (1) {
+    while (a[++i] < K) {
+      if (i == hi) break;
+    }
+    while (a[--j] > K) {
+      if (j == lo) break;
+    }
+
+    if (i >= j) break;
+
+    /* Swap */ {
+      if (VISUALIZE_MODE) print_ia(a, lo, hi, i, j);
+      int tmp = a[i];
+      a[i] = a[j];
+      a[j] = tmp;
+    }
+  }
+
+  /* Swap */ {
+    if (VISUALIZE_MODE) print_ia(a, lo, hi, i, j);
+    int tmp = a[lo];
+    a[lo] = a[j];
+    a[j] = tmp;
+  }
+
+  return j;
+}
+
+void quick_sort(IA arr, SortContext *ctx) {
+  int_array_shuffle(arr);
+  inner_quick_sort_core(arr, 0, arr->capacity - 1);
+}
+
 /********** Private Functions **************/
 
-private_func void exch(IA arr, int a, int b, SortContext* ctx) {
+private_func void exch(IA arr, int a, int b, SortContext *ctx) {
   if (a > arr->capacity - 1 || b > arr->capacity - 1) {
     if (DEBUG_MODE) {
-    __ERROR("Array Index out bound!");
-    __INFO("At exchange [%d] <--> [%d] with range: [0, %d]\n", a, b, arr->capacity - 1);
+      __ERROR("Array Index out bound!");
+      __INFO("At exchange [%d] <--> [%d] with range: [0, %d]\n", a, b,
+             arr->capacity - 1);
     }
     exit(ER100_ARRAY_INDEX_OUT_OF_BOUND);
   }
 
-  if (ctx != NULL) ctx->exchanges++;
+  if (ctx != NULL)
+    ctx->exchanges++;
 
   int tmp = arr->body[a];
   arr->body[a] = arr->body[b];
   arr->body[b] = tmp;
 }
 
-private_func bool less(IA arr, int a, int b, SortContext* ctx) {
+private_func bool less(IA arr, int a, int b, SortContext *ctx) {
   if (a > arr->capacity - 1 || b > arr->capacity - 1) {
     if (DEBUG_MODE) {
-    __ERROR("Array Index out bound!");
-    __INFO("At exchange [%d] <--> [%d] with range: [0, %d]\n", a, b, arr->capacity - 1);
-      
+      __ERROR("Array Index out bound!");
+      __INFO("At exchange [%d] <--> [%d] with range: [0, %d]\n", a, b,
+             arr->capacity - 1);
     }
     exit(ER100_ARRAY_INDEX_OUT_OF_BOUND);
   }
 
-  if (ctx != NULL) ctx->comparisons++;
+  if (ctx != NULL)
+    ctx->comparisons++;
 
   if (arr->body[a] < arr->body[b])
     return true;
   else
     return false;
 }
-
-
 
 private_func void print_seperator() {
   printf(" ");

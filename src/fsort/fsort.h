@@ -25,4 +25,4 @@ void selection_sort(IA arr, SortContext* ctx);
 void insertion_sort(IA arr, SortContext* ctx);
 void shell_sort(IA arr, SortContext* ctx);
 void merge_sort(IA arr, SortContext* ctx);
-
+void quick_sort(IA arrr, SortContext* ctx);
