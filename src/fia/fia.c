@@ -156,7 +156,7 @@ public_func void int_array_fill_few_unique(IA arr, int bound) {
 }
 
 public_func IA int_array_slice(IA arr, int start, int end) {
-  if (end > arr->capacity) {
+  if (end > arr->capacity || start < 0) {
     __ERROR("Int Array Index Out of Bound");
     exit(ER100_ARRAY_INDEX_OUT_OF_BOUND);
   }
@@ -185,7 +185,7 @@ public_func IA int_array_slice(IA arr, int start, int end) {
 }
 
 IA int_array_reference(IA arr, int start, int end) {
-  if (end > arr->capacity) {
+  if (end > arr->capacity || start < 0) {
     __ERROR("Int Array Index Out of Bound");
     exit(ER100_ARRAY_INDEX_OUT_OF_BOUND);
   }
@@ -205,11 +205,6 @@ IA int_array_reference(IA arr, int start, int end) {
   }
 
   IA res = (IA) malloc(sizeof(struct int_array));
-  // struct int_array res = {
-  //   arr->body + start,
-  //   cap,
-  //   arr
-  // };
   res->origin = arr;
   res->capacity = cap;
   res->body = arr->body + start;
