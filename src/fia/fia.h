@@ -7,8 +7,10 @@
 #include <stdbool.h>
 #include "../debug.h"
 
+#define T int
+
 struct int_array {
-    int* body;     // 数组数据指针
+    T* body;     // 数组数据指针
     int capacity;  // 数组的最大容量
     struct int_array* origin;
 };
@@ -19,8 +21,8 @@ typedef IntArray IA;
 IA int_array_create(int capacity);
 EXEC_STATUS int_array_destroy(IA arr);
 
-int int_array_get(const IA arr, int index);
-void int_array_set(IA arr, int index, int value);
+T int_array_get(const IA arr, int index);
+void int_array_set(IA arr, int index, T value);
 int int_array_capacity(const IA arr);
 
 void int_array_print(const IA arr);

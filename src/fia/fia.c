@@ -40,7 +40,7 @@ public_func IA int_array_create(int capacity) {
     return NULL;
   }
   IA ia = (IA) malloc(sizeof(struct int_array));
-  ia->body = (int *)calloc(capacity, sizeof(int));
+  ia->body = (T*) calloc(capacity, sizeof(T));
   ia->capacity = capacity;
   ia->origin = NULL;
   return ia;
@@ -73,7 +73,7 @@ public_func EXEC_STATUS int_array_destroy(IA arr) {
   return SUCCESS;
 }
 
-public_func int int_array_get(const IA arr, int index) {
+public_func T int_array_get(const IA arr, int index) {
   if (index >= arr->capacity) {
     __ERROR("Int Array Index Out of Bound");
     exit(ER100_ARRAY_INDEX_OUT_OF_BOUND);
@@ -82,7 +82,7 @@ public_func int int_array_get(const IA arr, int index) {
   }
 }
 
-public_func void int_array_set(IA arr, int index, int value) {
+public_func void int_array_set(IA arr, int index, T value) {
   if (index < 0) {
     __ERROR("Invalid argument: index: %d < 0", index);
     exit(FAIL);
@@ -216,7 +216,7 @@ IA int_array_reference(IA arr, int start, int end) {
 public_func void int_array_reverse(IA arr) {
   int step = arr->capacity / 2;
   for (int i = 0; i < step; i++) {
-    int tmp = arr->body[i];
+    T tmp = arr->body[i];
     arr->body[i] = arr->body[arr->capacity - i - 1];
     arr->body[arr->capacity - i - 1] = tmp;
   }
@@ -226,7 +226,7 @@ public_func void int_array_shuffle(IA arr) {
   srand((unsigned)time(NULL));
   for (int i = arr->capacity - 1; i >0; i--) {
     int j = rand() % (i + 1);
-    int tmp = arr->body[i];
+    T tmp = arr->body[i];
     arr->body[i] = arr->body[j];
     arr->body[j] = tmp;
   }
