@@ -1,5 +1,14 @@
 add_rules("mode.debug", "mode.release")
 
+target("pq")
+    set_kind("binary")
+    add_files("src/unittest/pq.c")
+    add_files("src/fia/*.c")
+    add_files("src/fsort/*.c")
+    set_warnings("all", "error")
+    set_optimize("none")
+
+
 target("app")
     set_kind("binary")
     add_files("src/*.c")
