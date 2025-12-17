@@ -1,2 +1,0 @@
-tokei
-onefetch

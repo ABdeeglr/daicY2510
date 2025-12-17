@@ -14,5 +14,13 @@ run:
 	@echo "********************\n"
 	@$(BUILD_DIR)/$(TARGET_EXEC)
 
+show-target:
+	@echo 'Searching Targets:'
+	@rg 'target' xmake.lua
+
+show-projectinfo:
+	@onefetch
+	@tokei
+
 clean:
 	rm -r $(BUILD_DIR)
