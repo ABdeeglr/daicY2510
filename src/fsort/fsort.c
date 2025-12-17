@@ -7,7 +7,7 @@
 #include "./fsort.h"
 
 #ifndef LIMITED
-#define LIMITED 16
+#define LIMITED 64
 #endif
 
 private_func void inner_merge_sort_core(IA arr, int *tmp, int lo, int hi);
@@ -17,7 +17,6 @@ private_func void inner_quick_sort_core(IA arr, int lo, int hi);
 private_func int partion(IA arr, int lo, int hi);
 
 // private_func void print_ia(int* arr, int start, int end, int a, int b);
-
 
 /********** Public Functions **************/
 
@@ -90,10 +89,9 @@ private_func int partion(IA arr, int lo, int hi) {
 }
 
 private_func void inner_merge_sort_core(IA arr, int *tmp, int lo, int hi) {
-  if (hi < lo + LIMITED) {
-    IA s = int_array_reference(arr, lo, hi);
-    insertion_sort(s, NULL);
-    int_array_destroy(s);
+  if (hi <= lo + LIMITED) {
+    struct int_array arr_shadow = int_array_reference(arr, lo, hi);
+    insertion_sort(&arr_shadow, NULL);
     return;
   }
 

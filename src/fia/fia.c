@@ -3,7 +3,6 @@
 #define public_func
 #define private_func static
 
-
 private_func int f_sqrt(int n) {
   int x = 1;
   bool decreased = false;
@@ -126,17 +125,13 @@ public_func void int_array_fill_sequential(IA arr) {
 }
 
 public_func void int_array_fill_almost_sorted(IA arr, int swaps) {
-  if (arr == NULL || swaps < 0) return;
-  
   // 1. 先生成一个完全有序的数组
-  int_array_fill_sequential(arr); 
 
   // 2. 进行少量随机交换，破坏其有序性
   srand((unsigned)time(NULL));
   for (int i = 0; i < swaps; i++) {
     int idx1 = rand() % arr->capacity;
     int idx2 = rand() % arr->capacity;
-    
     // 简单交换（使用 IA 的底层 body 访问更高效）
     int tmp = arr->body[idx1];
     arr->body[idx1] = arr->body[idx2];
@@ -168,13 +163,13 @@ public_func IA int_array_slice(IA arr, int start, int end) {
   } else {
     cap = end - start;
   }
-  
+
   if (cap > arr->capacity) {
     __ERROR("Cannot clone an array larger than its origin");
     __ERROR("Int Array Index Out of Bound");
     exit(ER100_ARRAY_INDEX_OUT_OF_BOUND);
   }
-  
+
   IA res = int_array_create(cap);
 
   for (int i = 0; i < res->capacity; i++) {
@@ -184,7 +179,7 @@ public_func IA int_array_slice(IA arr, int start, int end) {
   return res;
 }
 
-IA int_array_reference(IA arr, int start, int end) {
+struct int_array int_array_reference(IA arr, int start, int end) {
   if (end > arr->capacity || start < 0) {
     __ERROR("Int Array Index Out of Bound");
     exit(ER100_ARRAY_INDEX_OUT_OF_BOUND);
@@ -197,21 +192,20 @@ IA int_array_reference(IA arr, int start, int end) {
   } else {
     cap = end - start;
   }
-  
+
   if (cap > arr->capacity) {
     __ERROR("Cannot reference an array larger than its origin");
     __ERROR("Int Array Index Out of Bound");
     exit(ER100_ARRAY_INDEX_OUT_OF_BOUND);
   }
 
-  IA res = (IA) malloc(sizeof(struct int_array));
-  res->origin = arr;
-  res->capacity = cap;
-  res->body = arr->body + start;
+  struct int_array array_ref;
+  array_ref.origin = arr;
+  array_ref.capacity = cap;
+  array_ref.body = arr->body + start;
 
-  return res;
+  return array_ref;
 }
-
 
 public_func void int_array_reverse(IA arr) {
   int step = arr->capacity / 2;
@@ -224,7 +218,7 @@ public_func void int_array_reverse(IA arr) {
 
 public_func void int_array_shuffle(IA arr) {
   srand((unsigned)time(NULL));
-  for (int i = arr->capacity - 1; i >0; i--) {
+  for (int i = arr->capacity - 1; i > 0; i--) {
     int j = rand() % (i + 1);
     T tmp = arr->body[i];
     arr->body[i] = arr->body[j];
