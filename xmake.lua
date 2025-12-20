@@ -8,6 +8,13 @@ target("pq")
     set_warnings("all", "error")
     set_optimize("none")
 
+target("newfia")
+    set_kind("binary")
+    add_files("src/unittest/newfia.c")
+    add_files("src/fia/*.c")
+    set_warnings("all", "error")
+    set_optimize("none")
+
 
 target("app")
     set_kind("binary")
